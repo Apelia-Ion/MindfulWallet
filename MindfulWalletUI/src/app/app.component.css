@@ -1,0 +1,17 @@
+
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand img {
+    width: 60px;
+    height: 60px;
+  }
+  
+
+  .navbar {
+    padding-right: 0; /* Override the default padding if necessary */
+  }
+  
