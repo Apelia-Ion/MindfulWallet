@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "SYnUWQHBxv28qWoWBX5B6c1QLOROjpHBXsiPyWR4Gds=",
+  "Source": "MindfulWalletAPI",
+  "BasePath": "_content/MindfulWalletAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("MindfulWalletAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d3870e788fde823b80add1b04f1e84eae825567d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bf097b986f55dfd65e7e829c5b65226ca00b172")]
 [assembly: System.Reflection.AssemblyProductAttribute("MindfulWalletAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MindfulWalletAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
