@@ -47,7 +47,5 @@ export class LoginComponent implements OnInit {
         this.validateFormFields(control)
       }
     })
-
-
   }
 }

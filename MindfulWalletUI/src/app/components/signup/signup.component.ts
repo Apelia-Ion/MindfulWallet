@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -47,10 +47,28 @@ export class SignupComponent implements OnInit {
       }
     };
   }
-  onSubmit() {
-    if (this.signupForm.valid) {
-      console.log('Form Submitted', this.signupForm.value);
+  onSignup(){
+    if(this.signupForm.valid){
+      //send the obj to database
+      console.log(this.signupForm.value)
+
+    }else{
+      //throw err
+      console.log("Form is not valid")
+      this.validateFormFields(this.signupForm);
+      alert("Your form is invalid")
     }
+  }
+
+  private validateFormFields(formGroup:FormGroup){
+    Object.keys(formGroup.controls).forEach(field=>{
+      const control = formGroup.get(field);
+      if(control instanceof FormControl){
+        control.markAsDirty({onlySelf:true});
+      } else if (control instanceof FormGroup){
+        this.validateFormFields(control)
+      }
+    })
   }
   
 }

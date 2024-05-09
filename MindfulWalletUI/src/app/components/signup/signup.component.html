@@ -39,12 +39,13 @@
         <small *ngIf="signupForm.hasError('mustMatch','confirmPassword')" class="text-danger">
           *Passwords don't match
         </small>
+        <a> </a>
 
         <label class="terms">
           <input type="checkbox" id="terms">
           I agree to all statements in <a href="#">Terms of service</a>
         </label>
-        <button type="submit">Register</button>
+        <button (click)="onSignup()" type="submit">Register</button>
       </form>
     </div>
   </div>
