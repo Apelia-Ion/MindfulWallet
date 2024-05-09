@@ -10,11 +10,36 @@
     <div class="signup-container">
       <h1>Sign up</h1>
       <img src="/assets/signupimage.png" alt="Sign up visual" class="image-container">
-      <form class="signup-form">
-        <input type="text" id="name" placeholder="Your Name" required>
-        <input type="email" id="email" placeholder="Your Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <input type="password" id="confirm-password" placeholder="Repeat your password" required>
+      <form [formGroup]="signupForm" class="signup-form">
+        <input formControlName = "name" type="text" id="name" placeholder="Your Name" required>
+        <small *ngIf="signupForm.controls['name'].dirty && signupForm.hasError('required','name')" class="text-danger">
+          *Name is required
+        </small>
+
+        <input formControlName = "email" type="email" id="email" placeholder="Your Email" required>
+        <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('required','email')" class="text-danger">
+          *Email is required
+        </small>
+        <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('email','email')" class="text-danger">
+          *It's not a valid email
+        </small>
+
+        <input formControlName = "password" type="password" id="password" placeholder="Password" required>
+        <small *ngIf="signupForm.controls['password'].dirty && signupForm.hasError('required', 'password')" class="text-danger">
+          *Password is required
+        </small> 
+        <small *ngIf="signupForm.hasError('pattern', 'password')" class="text-danger">
+          *Password must include at least one uppercase letter, one lowercase letter, one number, and one special character and have 8 or more characters
+        </small>
+
+        <input formControlName = "confirmPassword" type="password" id="confirm-password" placeholder="Repeat your password" required>
+        <small *ngIf="signupForm.controls['confirmPassword'].dirty && signupForm.hasError('required','confirmPassword')" class="text-danger">
+          *Confirm password please
+        </small>
+        <small *ngIf="signupForm.hasError('mustMatch','confirmPassword')" class="text-danger">
+          *Passwords don't match
+        </small>
+
         <label class="terms">
           <input type="checkbox" id="terms">
           I agree to all statements in <a href="#">Terms of service</a>

@@ -7,6 +7,8 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { GoalsComponent } from './components/goals/goals.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent}  ,
@@ -21,7 +23,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule. forRoot(routes)],
-    exports: [RouterModule]
+    imports: [RouterModule. forRoot(routes), FormsModule, ReactiveFormsModule, CommonModule],
+    exports: [RouterModule, FormsModule, ReactiveFormsModule]
 })
 export class AppRoutingModule { }

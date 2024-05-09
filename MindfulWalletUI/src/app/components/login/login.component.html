@@ -8,23 +8,57 @@
 <body>
   <div class="login-container">
     <div class="wallet-logo">
-      <img src="/assets/MindfulWalletLogo.png">
+      <img src="/assets/MindfulWalletLogo.png" alt="Mindful Wallet Logo">
     </div>
+    
     <h1>Mindful Wallet</h1>
-    <form class="login-form">
+
+    <form [formGroup]="loginForm" class="login-form">
+
       <label for="email">Sign into your account</label>
-      <input type="email" id="email" placeholder="Email address" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">Login</button>
+      <input formControlName="email" type="email" id="email" placeholder="Email address" aria-label="Email" required>
+      <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required', 'email')" class="text-danger">
+        *Email is required
+      </small>
+      <small *ngIf="loginForm.controls['email'] && loginForm.hasError('email','email')" class="text-danger">
+        *Please enter a valid email
+      </small>
+
+      <input formControlName="password" type="password" id="password" placeholder="Password" aria-label="Password" required>
+      <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required', 'password')" class="text-danger">
+        *Password is required
+      </small>
+     
+      <small *ngIf="loginForm.hasError('pattern', 'password')" class="text-danger">
+        *Password must include at least one uppercase letter, one lowercase letter, one number, and one special character and have 8 or more characters
+      </small>
+
+      <button (click)="onSubmit()" type="submit">Login</button>
       <div class="links">
-        <a href="#">Forgot password?</a>
-        <a href="signup">Don't have an account? Register here</a>
+        <a href="#" aria-label="Forgot Password">Forgot password?</a>
+        <a href="signup" aria-label="Register Account">Don't have an account? Register here</a>
       </div>
     </form>
-    <div class="footer">
-      <a href="#">Terms of use</a>
-      <a href="#">Privacy policy</a>
+
+    <a>Or connect with</a>
+
+    <div class="socials">
+      <a href="https://www.facebook.com" target="_blank" class="ex-link" aria-label="Connect with Facebook">
+        <img src="assets/facebooklogo.png" alt="Facebook">
+      </a>
+      <a href="https://www.google.com" target="_blank" class="ex-link" aria-label="Connect with Google">
+        <img src="assets/googlelogo.png" alt="Google">
+      </a>
+      <a href="https://www.github.com" target="_blank" class="ex-link" aria-label="Connect with GitHub">
+        <img src="assets/githublogo.png" alt="GitHub">
+      </a>
     </div>
+
+    <div class="footer">
+      <a href="#" aria-label="Terms of Use">Terms of use</a>
+      <a href="#" aria-label="Privacy Policy">Privacy policy</a>
+    </div>
+
   </div>
 </body>
 </html>

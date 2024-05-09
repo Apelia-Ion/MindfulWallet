@@ -80,4 +80,22 @@ body {
   .footer a:not(:last-child) {
     margin-right: 10px;
   }
+
+  .socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .socials img {
+    max-width: 50px; /* Adjust as needed */
+    max-height: 50px; /* Adjust if the images are square */
+    margin-right: 30px; /* Adds space between images */
+    padding: 8px;
+  }
+  
+  /* To remove the last image's margin */
+  .socials img:last-child {
+    margin-right: 0;
+  }
   
