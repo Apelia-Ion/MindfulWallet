@@ -24,6 +24,7 @@ body, html {
     padding: 2em;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
   }
   
   h1 {
@@ -61,6 +62,7 @@ body, html {
   
   .terms {
     margin-bottom: 15px;
+    margin-top: 15px;
   }
   
   .terms input[type="checkbox"] {

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
+import ValidateForm from '../../helpers/validateForm';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} f
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private auth: AuthService ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -25,27 +27,28 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit(){
+  onLogin(){
     if(this.loginForm.valid){
-      //send the obj to database
       console.log(this.loginForm.value)
+      //send the obj to database
+      this.auth.login(this.loginForm.value)
+      .subscribe({
+        next:(res)=>{
+          alert(res.message)
+        },
+        error:(err)=>(
+          alert(err.error.message)
+        )
+      })
+
 
     }else{
       //throw err
       console.log("Form is not valid")
-      this.validateFormFields(this.loginForm);
+      ValidateForm.validateFormFields(this.loginForm);
       alert("Your form is invalid")
     }
   }
 
-  private validateFormFields(formGroup:FormGroup){
-    Object.keys(formGroup.controls).forEach(field=>{
-      const control = formGroup.get(field);
-      if(control instanceof FormControl){
-        control.markAsDirty({onlySelf:true});
-      } else if (control instanceof FormGroup){
-        this.validateFormFields(control)
-      }
-    })
-  }
+
 }

@@ -9,6 +9,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent}  ,
@@ -23,7 +24,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule. forRoot(routes), FormsModule, ReactiveFormsModule, CommonModule],
+    imports: [RouterModule. forRoot(routes), FormsModule, ReactiveFormsModule, CommonModule, HttpClientModule],
     exports: [RouterModule, FormsModule, ReactiveFormsModule]
 })
 export class AppRoutingModule { }
