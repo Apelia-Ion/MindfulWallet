@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34707.107
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindfulWallet.Core", "MindfulWalletAPI.Core\MindfulWallet.Core.csproj", "{A04245C7-A30B-425A-B254-0A3BD154C6B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindfulWallet.Aplication", "MindfulWalletAPI.Aplication\MindfulWallet.Aplication.csproj", "{10DD0FEF-27C1-4C79-9928-96416907566E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindfulWallet.Infrastructure", "MindfulWalletAPI.Infrastructure\MindfulWallet.Infrastructure.csproj", "{B03E89D2-E99C-48BB-BE2E-1752E9574252}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindfulWallet.API", "MindfulWallet.API\MindfulWallet.API.csproj", "{B083F1AA-1A7A-44F4-B4C6-E28C4315FF7E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A04245C7-A30B-425A-B254-0A3BD154C6B0} = {A04245C7-A30B-425A-B254-0A3BD154C6B0}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A04245C7-A30B-425A-B254-0A3BD154C6B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A04245C7-A30B-425A-B254-0A3BD154C6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A04245C7-A30B-425A-B254-0A3BD154C6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A04245C7-A30B-425A-B254-0A3BD154C6B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10DD0FEF-27C1-4C79-9928-96416907566E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10DD0FEF-27C1-4C79-9928-96416907566E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10DD0FEF-27C1-4C79-9928-96416907566E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10DD0FEF-27C1-4C79-9928-96416907566E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B03E89D2-E99C-48BB-BE2E-1752E9574252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B03E89D2-E99C-48BB-BE2E-1752E9574252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B03E89D2-E99C-48BB-BE2E-1752E9574252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B03E89D2-E99C-48BB-BE2E-1752E9574252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B083F1AA-1A7A-44F4-B4C6-E28C4315FF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B083F1AA-1A7A-44F4-B4C6-E28C4315FF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B083F1AA-1A7A-44F4-B4C6-E28C4315FF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B083F1AA-1A7A-44F4-B4C6-E28C4315FF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {431D25F8-E80F-4A1B-900E-B42398F372F0}
+	EndGlobalSection
+EndGlobal
