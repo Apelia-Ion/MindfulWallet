@@ -16,6 +16,8 @@
           *Name is required
         </small>
 
+        <input formControlName = "username" type="text" id="username" placeholder="Your Username">
+
         <input formControlName = "email" type="email" id="email" placeholder="Your Email" required>
         <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('required','email')" class="text-danger">
           *Email is required
