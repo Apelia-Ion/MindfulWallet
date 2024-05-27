@@ -55,5 +55,17 @@ namespace MindfulWalletAPI.Controllers
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
+
+        [Authorize]
+        [HttpGet("getUserByEmail/{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await _userService.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound(new { Message = "User not found" });
+            }
+            return Ok(user);
+        }
     }
 }

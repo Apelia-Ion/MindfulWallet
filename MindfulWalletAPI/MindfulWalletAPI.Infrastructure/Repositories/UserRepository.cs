@@ -44,5 +44,8 @@ namespace MindfulWallet.Infrastructure.Repositories
         {
             return await _context.Users.ToListAsync();
         }
+
+ 
+
     }
 }

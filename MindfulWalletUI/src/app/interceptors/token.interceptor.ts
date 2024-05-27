@@ -9,8 +9,8 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const myToken = authService.getToken();
   const router =inject(Router);
 
-  console.log('Interceptor activated'); // Debugging line
-  console.log(`Token found: ${myToken}`); // Debugging line
+  // console.log('Interceptor activated'); // Debugging line
+  // console.log(`Token found: ${myToken}`); // Debugging line
 
   if (myToken) {
     req = req.clone({

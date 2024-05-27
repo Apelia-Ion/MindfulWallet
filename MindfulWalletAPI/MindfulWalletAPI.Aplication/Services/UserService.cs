@@ -88,6 +88,11 @@ namespace MindfulWallet.Aplication.Services
             return await _userRepository.GetAllUsersAsync();
         }
 
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await _userRepository.GetUserByEmailAsync(email);
+        }
+
 
 
     }

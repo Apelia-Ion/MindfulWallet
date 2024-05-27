@@ -1,1 +1,27 @@
-<p>calendar works!</p>
+<div class="calendar-container">
+    <header class="calendar-header">
+        <h1>Calendar Obiective</h1>
+        <div class="calendar-controls">
+            <button class="control-button" (click)="prevMonth()">&lt;</button>
+            <span>{{ monthNames[currentMonth] }} {{ currentYear }}</span>
+            <button class="control-button" (click)="nextMonth()">&gt;</button>
+        </div>
+    </header>
+    <div class="calendar">
+        <div class="calendar-header-row">
+            <div class="calendar-day">Sun</div>
+            <div class="calendar-day">Mon</div>
+            <div class="calendar-day">Tue</div>
+            <div class="calendar-day">Wed</div>
+            <div class="calendar-day">Thu</div>
+            <div class="calendar-day">Fri</div>
+            <div class="calendar-day">Sat</div>
+        </div>
+        <div *ngFor="let week of weeks" class="calendar-week">
+            <div *ngFor="let date of week" class="calendar-date">
+                <div *ngIf="date" class="date-number">{{ date }}</div>
+                <!-- Add custom badges, text, icons, etc. here -->
+            </div>
+        </div>
+    </div>
+</div>

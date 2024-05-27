@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} f
 import ValidateForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { UserStoreService } from '../../services/user-store.service';
 
 
 @Component({
@@ -16,7 +17,12 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router ) {}
+  constructor(
+    private fb: FormBuilder,
+     private auth: AuthService, 
+     private router: Router,
+     private userStore: UserStoreService
+    ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -38,6 +44,9 @@ export class LoginComponent implements OnInit {
           alert(res.message);
           this.loginForm.reset();
           this.auth.storeToken(res.token);
+          const tokenPayload = this.auth.decodeToken();
+          this.userStore.setFullNameForStore(tokenPayload.name);
+          this.userStore.setRoleForStore(tokenPayload.role);
           this.router.navigate(['home']);
           
         },
