@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj": {}
+    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj": {
+    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj",
+        "projectUniqueName": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj",
         "projectName": "MindfulWallet.Aplication",
-        "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj",
+        "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj",
         "packagesPath": "C:\\Users\\ionap\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\obj\\",
+        "outputPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ionap\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -29,8 +29,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj": {
-                "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj"
+              "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj": {
+                "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj"
               }
             }
           }
@@ -93,14 +93,14 @@
         }
       }
     },
-    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj": {
+    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj",
+        "projectUniqueName": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj",
         "projectName": "MindfulWallet.Core",
-        "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj",
+        "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj",
         "packagesPath": "C:\\Users\\ionap\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\obj\\",
+        "outputPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ionap\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -178,14 +178,14 @@
         }
       }
     },
-    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj": {
+    "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj",
         "projectName": "MindfulWallet.Infrastructure",
-        "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\ionap\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ionap\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -203,11 +203,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj": {
-                "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj"
+              "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj": {
+                "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj"
               },
-              "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj": {
-                "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj"
+              "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj": {
+                "projectPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Core\\MindfulWallet.Core.csproj"
               }
             }
           }

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MindfulWallet.Aplication.Interfaces.Service;
+using MindfulWallet.Aplication.Services;
 using MindfulWallet.Core.Models;
 using MindfulWalletAPI.Models;
 using System.Threading.Tasks;
@@ -29,7 +31,7 @@ namespace MindfulWalletAPI.Controllers
             if (token == null)
                 return BadRequest(new { Message = "Invalid email or password" });
 
-            return Ok(new { Token = token });
+            return Ok(new { message = "Login successful", token = token });
         }
 
         [HttpPost("register")]
@@ -44,6 +46,14 @@ namespace MindfulWalletAPI.Controllers
                 return BadRequest(new { Message = result });
 
             return Ok(new { Message = result });
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
         }
     }
 }

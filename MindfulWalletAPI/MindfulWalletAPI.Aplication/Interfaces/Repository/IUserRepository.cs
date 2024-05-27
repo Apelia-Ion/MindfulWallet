@@ -13,5 +13,7 @@ namespace MindfulWallet.Aplication.Interfaces.Repository
         Task<bool> UsernameExistsAsync(string username);
         Task<bool> EmailExistsAsync(string email);
         Task AddUserAsync(User user);
+
+        Task<IEnumerable<User>> GetAllUsersAsync();
     }
 }

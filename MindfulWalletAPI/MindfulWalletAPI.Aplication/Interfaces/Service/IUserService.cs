@@ -12,5 +12,7 @@ namespace MindfulWallet.Aplication.Interfaces.Service
     {
         Task<string> AuthenticateAsync(string email, string password);
         Task<string> RegisterUserAsync(RegisterModel registerModel);
+
+        Task<IEnumerable<User>> GetAllUsersAsync();
     }
 }

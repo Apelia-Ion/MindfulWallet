@@ -9,12 +9,15 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgToastModule } from 'ng-angular-popup';
+import { authGuard } from './guards/auth.guard';
+import { StartComponent } from './components/start/start.component';
+import { tokenInterceptor } from './interceptors/token.interceptor';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent}  ,
-    { path:'home', component: HomeComponent },
+    { path: '', component: StartComponent }  ,
+    { path:'home', component: HomeComponent, canActivate:[authGuard] },
     { path:'expenses', component: ExpensesComponent },
     { path:'calendar', component: CalendarComponent},
     { path:'goals', component: GoalsComponent},
@@ -32,6 +35,9 @@ export const routes: Routes = [
         HttpClientModule,
         NgToastModule
     ],
-    exports: [RouterModule, FormsModule, ReactiveFormsModule]
+    exports: [RouterModule, FormsModule, ReactiveFormsModule],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useValue: tokenInterceptor, multi: true }
+      ]
 })
 export class AppRoutingModule { }

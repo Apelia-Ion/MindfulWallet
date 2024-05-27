@@ -83,6 +83,11 @@ namespace MindfulWallet.Aplication.Services
             return "User Registered";
         }
 
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _userRepository.GetAllUsersAsync();
+        }
+
 
 
     }

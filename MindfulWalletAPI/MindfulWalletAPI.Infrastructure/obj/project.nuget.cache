@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rlLnGC8XKNNLAk5Y3gqZE8A0v8wO5nwHO85UJhgRtdaPjHjDt+IoqwBlrDN+3fZGFEPqFmLwbpux9xY2f3KlHw==",
+  "dgSpecHash": "nenmyWvzM8sEyoc1CvoYS3igUw8/wJd9PkquoiJ5W0dF0BSpzXUPhOu1FEdkQPlC/tfUAzkZaCWdOP5/exvebg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ionap\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\ionap\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
