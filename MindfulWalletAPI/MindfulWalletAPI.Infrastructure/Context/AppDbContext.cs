@@ -11,10 +11,18 @@ namespace MindfulWalletAPI.Context
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            object value = modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<User>()
+                .ToTable("users")
+                .HasMany(u => u.RefreshTokens)
+                .WithOne(rt => rt.User)
+                .HasForeignKey(rt => rt.UserId);
+
+            modelBuilder.Entity<RefreshToken>()
+                .ToTable("refreshTokens");
         }
     }
 }

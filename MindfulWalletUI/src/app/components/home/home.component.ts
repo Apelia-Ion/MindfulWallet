@@ -9,24 +9,31 @@ import { UserStoreService } from '../../services/user-store.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   public users: any = [];
   public userName: string = "";
   public userRole: string = "";
-  constructor(private api : HomeService, private authentication : AuthService, private userStore: UserStoreService) {}
+  public showUsers: boolean = false;
+
+  constructor(private api: HomeService, private authentication: AuthService, private userStore: UserStoreService) {}
 
   ngOnInit(): void {
-    this.api.getUsers().subscribe(res=>this.users = res);
     this.userStore.getFullNameFromStore().subscribe(val => {
       let fullNameFromToken = this.authentication.getFullNameFromToken();
-      this.userName = val || fullNameFromToken
+      this.userName = val || fullNameFromToken;
     });
     this.userStore.getRoleFromStore().subscribe(val => {
       let role = this.authentication.getRoleFromToken();
-      this.userRole = val || role
+      this.userRole = val || role;
     });
   }
 
+  toggleUsers(): void {
+    this.showUsers = !this.showUsers;
+    if (this.showUsers) {
+      this.api.getUsers().subscribe(res => this.users = res);
+    }
+  }
 }

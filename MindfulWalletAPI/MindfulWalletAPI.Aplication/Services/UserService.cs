@@ -1,63 +1,53 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MindfulWallet.Aplication.Interfaces.Repository;
 using MindfulWallet.Aplication.Interfaces.Service;
+using MindfulWallet.Core.DTOs;
+using MindfulWallet.Core.Entities;
 using MindfulWallet.Core.Models;
 using MindfulWalletAPI.Helpers;
 using MindfulWalletAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MindfulWallet.Aplication.Services
+namespace MindfulWallet.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IConfiguration _configuration;
+        private readonly ITokenService _tokenService;
+        private readonly ILogger _logger;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, ITokenService tokenService, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
-            _configuration = configuration;
+            _tokenService = tokenService;
+            _logger = logger;
         }
 
-        public async Task<string> AuthenticateAsync(string email, string password)
+        public async Task<TokenApiDto> AuthenticateAsync(string email, string password)
         {
             var user = await _userRepository.GetUserByEmailAsync(email);
 
             if (user == null || !PasswordHasher.VerifyPassword(password, user.Password))
                 return null;
 
-            var token = GenerateJwtToken(user);
-            return token;
-        }
-        private string GenerateJwtToken(User user)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("veryveryverysecretsecret........");
-            var identity = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim(ClaimTypes.Name,$"{user.Name}")
-            });
+            var accessToken = _tokenService.GenerateJwtToken(user);
+            var refreshToken = await _tokenService.CreateRefreshToken(); //string
 
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var refreshTokenEntity = new RefreshToken
             {
-                Subject = identity,
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = credentials
+                Token = refreshToken,
+                Expires = DateTime.UtcNow.AddDays(7), //standard
+                UserId = user.Id
             };
-            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-            return jwtTokenHandler.WriteToken(token);
 
-            
+            user.RefreshTokens.Add(refreshTokenEntity);
+            await _userRepository.SaveAsync();
+
+            return new TokenApiDto()
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
         }
 
         public async Task<string> RegisterUserAsync(RegisterModel registerModel)
@@ -74,12 +64,10 @@ namespace MindfulWallet.Aplication.Services
                 UserName = registerModel.UserName,
                 Email = registerModel.Email,
                 Password = PasswordHasher.HashPassword(registerModel.Password),
-                Role ="user",
-                Token = ""
+                Role = "user"
             };
 
             await _userRepository.AddUserAsync(user);
-
             return "User Registered";
         }
 
@@ -94,7 +82,54 @@ namespace MindfulWallet.Aplication.Services
         }
 
 
+        public async Task<TokenApiDto> RefreshTokenAsync(TokenApiDto tokenApiDto)
+        {
+            // Add logging here
+            _logger.LogInformation("Attempting to refresh token...");
+
+            if (tokenApiDto == null)
+                throw new ArgumentNullException(nameof(tokenApiDto));
+
+            var principal = _tokenService.GetPrincipalFromExpiredToken(tokenApiDto.AccessToken);
+            var username = principal.Identity.Name;
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            if (user == null || user.RefreshTokens.All(rt => rt.Token != tokenApiDto.RefreshToken || rt.Expires <= DateTime.Now))
+            {
+                _logger.LogWarning("Invalid or expired refresh token");
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            var newAccessToken = _tokenService.GenerateJwtToken(user);
+            var newRefreshToken = await _tokenService.CreateRefreshToken();
+            var currentTime = DateTime.UtcNow;
+
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = newRefreshToken,
+                Expires = DateTime.UtcNow.AddDays(7),
+                UserId = user.Id
+            };
+
+            user.RefreshTokens.Add(refreshTokenEntity);
+            await _userRepository.SaveAsync();
+
+            // Log new token details
+            _logger.LogInformation($"Current UTC Time: {currentTime}");
+            _logger.LogInformation($"New Access Token: {newAccessToken}, New Refresh Token: {newRefreshToken}");
+
+            return new TokenApiDto
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
+            };
+        }
+
+
+
+
+
 
     }
-}
 
+}

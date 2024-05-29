@@ -15,5 +15,10 @@ namespace MindfulWallet.Aplication.Interfaces.Repository
         Task AddUserAsync(User user);
 
         Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<User> GetUserByRefreshTokenAsync(string refreshToken);
+
+        Task SaveAsync();
+
+        Task<User> GetUserByUsernameAsync(string username);
     }
 }

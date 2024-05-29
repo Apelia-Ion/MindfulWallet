@@ -40,11 +40,12 @@ body {
 
 .cta-button {
     padding: 10px 20px;
+    margin: 30px;
     font-size: 1em;
     color: white;
     background-color: #007bff;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
 }
 

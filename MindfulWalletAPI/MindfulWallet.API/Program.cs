@@ -1,17 +1,19 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using System.Text;
-using MindfulWalletAPI.Context;
 using MindfulWallet.Aplication.Interfaces.Repository;
-using MindfulWallet.Infrastructure.Repositories;
 using MindfulWallet.Aplication.Interfaces.Service;
-using MindfulWallet.Aplication.Services;
+using MindfulWallet.Application.Services;
+using MindfulWallet.Infrastructure.Repositories;
+using MindfulWalletAPI.Context;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -36,6 +38,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Register repositories and services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // Configure JWT authentication
@@ -59,7 +62,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidateIssuer = false,
         ValidateAudience = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("veryveryverysecretsecret........"))
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ClockSkew = TimeSpan.Zero
     };
 });
 

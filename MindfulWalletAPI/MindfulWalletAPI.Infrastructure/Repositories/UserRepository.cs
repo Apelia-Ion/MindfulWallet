@@ -2,11 +2,7 @@
 using MindfulWallet.Aplication.Interfaces.Repository;
 using MindfulWalletAPI.Context;
 using MindfulWalletAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MindfulWallet.Infrastructure.Repositories
 {
@@ -45,7 +41,26 @@ namespace MindfulWallet.Infrastructure.Repositories
             return await _context.Users.ToListAsync();
         }
 
- 
+        public async Task<User> GetUserByRefreshTokenAsync(string refreshToken)
+        {
+            return await _context.Users
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.RefreshTokens.Any(rt => rt.Token == refreshToken));
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            return await _context.Users
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.UserName == username);
+        }
+
+
 
     }
 }
