@@ -6,7 +6,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EnableDefaultContentItems>false</EnableDefaultContentItems>
-	</PropertyGroup>
+	  <UserSecretsId>f09b50dd-c8a5-47b7-ab7a-4e6adc6033e8</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<Content Include="appsettings.Development.json">

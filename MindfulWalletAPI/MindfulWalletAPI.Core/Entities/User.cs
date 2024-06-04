@@ -12,5 +12,6 @@ namespace MindfulWalletAPI.Models
         public string? Password { get; set; }
         public string? Role { get; set; }
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+        public ICollection<ResetToken> ResetTokens { get; set; } = new List<ResetToken>();
     }
 }

@@ -1,64 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Mindful Wallet Login</title>
-  <link rel="stylesheet" href="login.component.css">
-</head>
-<body>
-  <div class="login-container">
-    <div class="wallet-logo">
-      <img src="/assets/MindfulWalletLogo.png" alt="Mindful Wallet Logo">
-    </div>
-    
-    <h1>Mindful Wallet</h1>
-
-    <form [formGroup]="loginForm" class="login-form">
-
-      <label for="email">Sign into your account</label>
-      <input formControlName="email" type="email" id="email" placeholder="Email address" aria-label="Email" required>
-      <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required', 'email')" class="text-danger">
-        *Email is required
-      </small>
-      <small *ngIf="loginForm.controls['email'] && loginForm.hasError('email','email')" class="text-danger">
-        *Please enter a valid email
-      </small>
-
-      <input formControlName="password" type="password" id="password" placeholder="Password" aria-label="Password" required>
-      <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required', 'password')" class="text-danger">
-        *Password is required
-      </small>
-     
-      <small *ngIf="loginForm.hasError('pattern', 'password')" class="text-danger">
-        *Password must include at least one uppercase letter, one lowercase letter, one number, and one special character and have 8 or more characters
-      </small>
-
-      <button  (click)="onLogin()" type="submit">Login</button>
-      <div class="links">
-        <a href="#" aria-label="Forgot Password">Forgot password?</a>
-        <a href="signup" aria-label="Register Account">Don't have an account? Register here</a>
-      </div>
-    </form>
-
-    <a>Or connect with</a>
-
-    <div class="socials">
-      <a href="https://www.facebook.com" target="_blank" class="ex-link" aria-label="Connect with Facebook">
-        <img src="assets/facebooklogo.png" alt="Facebook">
-      </a>
-      <a href="https://www.google.com" target="_blank" class="ex-link" aria-label="Connect with Google">
-        <img src="assets/googlelogo.png" alt="Google">
-      </a>
-      <a href="https://www.github.com" target="_blank" class="ex-link" aria-label="Connect with GitHub">
-        <img src="assets/githublogo.png" alt="GitHub">
-      </a>
-    </div>
-
-    <div class="footer">
-      <a href="#" aria-label="Terms of Use">Terms of use</a>
-      <a href="#" aria-label="Privacy Policy">Privacy policy</a>
-    </div>
-
+<div class="login-container">
+  <div class="wallet-logo">
+    <img src="/assets/MindfulWalletLogo.png" alt="Mindful Wallet Logo">
   </div>
-</body>
-</html>
+  
+  <h1>Mindful Wallet</h1>
+
+  <form [formGroup]="loginForm" class="login-form">
+    <label for="email">Sign into your account</label>
+    <input formControlName="email" type="email" id="email" placeholder="Email address" aria-label="Email" required>
+    <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required', 'email')" class="text-danger">
+      *Email is required
+    </small>
+    <small *ngIf="loginForm.controls['email'] && loginForm.hasError('email','email')" class="text-danger">
+      *Please enter a valid email
+    </small>
+
+    <input formControlName="password" type="password" id="password" placeholder="Password" aria-label="Password" required>
+    <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required', 'password')" class="text-danger">
+      *Password is required
+    </small>
+   
+    <small *ngIf="loginForm.hasError('pattern', 'password')" class="text-danger">
+      *Password must include at least one uppercase letter, one lowercase letter, one number, and one special character and have 8 or more characters
+    </small>
+
+    <button (click)="onLogin()" type="submit" class="btn btn-primary">Login</button>
+    <div class="links">
+      <a href="#" (click)="openModal($event)" aria-label="Forgot Password" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password?</a>
+      <a href="signup" aria-label="Register Account">Don't have an account? Register here</a>
+    </div>
+  </form>
+
+  <a>Or connect with</a>
+
+  <div class="socials">
+    <a href="https://www.facebook.com" target="_blank" class="ex-link" aria-label="Connect with Facebook">
+      <img src="assets/facebooklogo.png" alt="Facebook">
+    </a>
+    <a href="https://www.google.com" target="_blank" class="ex-link" aria-label="Connect with Google">
+      <img src="assets/googlelogo.png" alt="Google">
+    </a>
+    <a href="https://www.github.com" target="_blank" class="ex-link" aria-label="Connect with GitHub">
+      <img src="assets/githublogo.png" alt="GitHub">
+    </a>
+  </div>
+
+  <div class="footer">
+    <a href="#" aria-label="Terms of Use">Terms of use</a>
+    <a href="#" aria-label="Privacy Policy">Privacy policy</a>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Please enter your email address to reset your password.</p>
+        <input [(ngModel)]="resetPasswordEmail" (ngModelChange)="checkValidEmail($event)" type="email" id="reset-email" class="form-control" placeholder="Email address" required>
+        <small *ngIf="!isValidEmail && resetPasswordEmail" class="text-danger">
+          *Please enter a valid email address
+        </small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id ="closeModalbtn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" (click)="sendResetEmail()" class="btn btn-primary" [disabled]="!isValidEmail">Reset Password</button>
+      </div>
+    </div>
+  </div>
+</div>

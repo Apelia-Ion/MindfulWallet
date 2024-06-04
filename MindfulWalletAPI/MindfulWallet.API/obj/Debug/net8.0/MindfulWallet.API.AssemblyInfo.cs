@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("f09b50dd-c8a5-47b7-ab7a-4e6adc6033e8")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("MindfulWallet.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e818a064e83087de706d3abc0561a5cbf74c4f4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a1c90a490f76026d3291facac95f3c950291bfe")]
 [assembly: System.Reflection.AssemblyProductAttribute("MindfulWallet.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MindfulWallet.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,28 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import ValidateForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserStoreService } from '../../services/user-store.service';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  public resetPasswordEmail!: string;
+  public isValidEmail: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-     private auth: AuthService, 
-     private router: Router,
-     private userStore: UserStoreService
-    ) {}
+    private auth: AuthService, 
+    private router: Router,
+    private userStore: UserStoreService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -34,36 +36,49 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onLogin(){
-    if(this.loginForm.valid){
-      console.log(this.loginForm.value)
-      //send the obj to database
+  onLogin() {
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
       this.auth.login(this.loginForm.value)
-      .subscribe({
-        next:(res)=>{
-          alert(res.message);
-          this.loginForm.reset();
-          this.auth.storeToken(res.accessToken);
-          this.auth.storeRefreshToken(res.refreshToken);
-          const tokenPayload = this.auth.decodeToken();
-          this.userStore.setFullNameForStore(tokenPayload.name);
-          this.userStore.setRoleForStore(tokenPayload.role);
-          this.router.navigate(['home']);
-          
-        },
-        error:(err)=>(
-          alert(err.error.message)
-        )
-      })
-
-
-    }else{
-      //throw err
-      console.log("Form is not valid")
+        .subscribe({
+          next: (res) => {
+            alert(res.message);
+            this.loginForm.reset();
+            this.auth.storeToken(res.accessToken);
+            this.auth.storeRefreshToken(res.refreshToken);
+            const tokenPayload = this.auth.decodeToken();
+            this.userStore.setFullNameForStore(tokenPayload.name);
+            this.userStore.setRoleForStore(tokenPayload.role);
+            this.router.navigate(['home']);
+          },
+          error: (err) => {
+            alert(err.error.message);
+          }
+        });
+    } else {
+      console.log("Form is not valid");
       ValidateForm.validateFormFields(this.loginForm);
-      alert("Your form is invalid")
+      alert("Your form is invalid");
     }
   }
 
+  openModal(event: Event) {
+    event.preventDefault();
+  }
 
+  checkValidEmail(event: any) {
+    const value = event.target ? event.target.value : event;
+    const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/; 
+    this.isValidEmail = pattern.test(value);
+  }
+
+  sendResetEmail() {
+    if(this.isValidEmail){
+      console.log(this.resetPasswordEmail);
+      this.resetPasswordEmail ='';
+      const buttonRef = document.getElementById("closeModalbtn");
+      buttonRef?.click();
+      // API Call pentru resetarea parolei
+    } 
+  }
 }

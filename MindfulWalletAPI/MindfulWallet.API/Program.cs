@@ -10,6 +10,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
+
 // Configure logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();

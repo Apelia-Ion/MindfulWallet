@@ -12,6 +12,7 @@ namespace MindfulWalletAPI.Context
 
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<ResetToken> ResetTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,14 @@ namespace MindfulWalletAPI.Context
 
             modelBuilder.Entity<RefreshToken>()
                 .ToTable("refreshTokens");
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.ResetTokens)
+                .WithOne(rt => rt.User)
+                .HasForeignKey(rt => rt.UserId);
+
+            modelBuilder.Entity<ResetToken>()
+                .ToTable("resetTokens");
         }
     }
 }
