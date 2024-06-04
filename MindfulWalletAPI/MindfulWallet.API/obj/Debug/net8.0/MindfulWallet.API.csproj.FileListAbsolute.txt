@@ -428,3 +428,7 @@ C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWall
 C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWallet.API\obj\Debug\net8.0\MindfulWallet.API.pdb
 C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWallet.API\obj\Debug\net8.0\MindfulWallet.API.genruntimeconfig.cache
 C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWallet.API\obj\Debug\net8.0\ref\MindfulWallet.API.dll
+C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWallet.API\bin\Debug\net8.0\MailKit.dll
+C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWallet.API\bin\Debug\net8.0\MimeKit.dll
+C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWallet.API\bin\Debug\net8.0\NETCore.MailKit.dll
+C:\Users\ionap\Desktop\SCHOOL\Licenta\MindfulWallet\MindfulWalletAPI\MindfulWallet.API\bin\Debug\net8.0\BouncyCastle.Crypto.dll

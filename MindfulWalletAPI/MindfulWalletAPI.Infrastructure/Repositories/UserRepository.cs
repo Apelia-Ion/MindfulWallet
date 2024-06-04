@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MindfulWallet.Aplication.Interfaces.Repository;
+using MindfulWallet.Core.Entities;
 using MindfulWalletAPI.Context;
 using MindfulWalletAPI.Models;
 
@@ -58,6 +59,27 @@ namespace MindfulWallet.Infrastructure.Repositories
             return await _context.Users
                 .Include(u => u.RefreshTokens)
                 .FirstOrDefaultAsync(u => u.UserName == username);
+        }
+
+
+
+
+
+        public async Task<ResetToken> GetResetTokenAsync(string token)
+        {
+            return await _context.ResetTokens.Include(rt => rt.User).FirstOrDefaultAsync(rt => rt.Token == token);
+        }
+
+        public async Task AddResetTokenAsync(ResetToken resetToken)
+        {
+            await _context.ResetTokens.AddAsync(resetToken);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveResetTokenAsync(ResetToken resetToken)
+        {
+            _context.ResetTokens.Remove(resetToken);
+            await _context.SaveChangesAsync();
         }
 
 

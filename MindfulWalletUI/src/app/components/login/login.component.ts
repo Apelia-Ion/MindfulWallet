@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserStoreService } from '../../services/user-store.service';
 import { FormsModule } from '@angular/forms';
+import { ResetPasswordService } from '../../services/reset-password.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService, 
     private router: Router,
-    private userStore: UserStoreService
+    private userStore: UserStoreService,
+    private resetService: ResetPasswordService
   ) {}
 
   ngOnInit(): void {
@@ -73,12 +75,28 @@ export class LoginComponent implements OnInit {
   }
 
   sendResetEmail() {
-    if(this.isValidEmail){
+    if(this.isValidEmail) {
       console.log(this.resetPasswordEmail);
-      this.resetPasswordEmail ='';
+      // Store the email temporarily before resetting the field
+      const emailToSend = this.resetPasswordEmail;
+      this.resetPasswordEmail = '';
       const buttonRef = document.getElementById("closeModalbtn");
       buttonRef?.click();
+      
       // API Call pentru resetarea parolei
+      this.resetService.sendResetPasswordLink(emailToSend)
+        .subscribe({
+          next: (res) => {
+            alert('Success: Reset Success!');
+            const buttonRef = document.getElementById("closeBtn");
+            buttonRef?.click();
+          },
+          error: (err) => {
+            alert('ERROR: Something went wrong!');
+          }
+        });
     } 
   }
+  
+  
 }

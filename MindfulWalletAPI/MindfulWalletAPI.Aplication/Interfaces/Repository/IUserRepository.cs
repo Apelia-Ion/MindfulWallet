@@ -1,4 +1,5 @@
-﻿using MindfulWalletAPI.Models;
+﻿using MindfulWallet.Core.Entities;
+using MindfulWalletAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,12 @@ namespace MindfulWallet.Aplication.Interfaces.Repository
         Task SaveAsync();
 
         Task<User> GetUserByUsernameAsync(string username);
+
+
+
+
+        Task<ResetToken> GetResetTokenAsync(string token);
+        Task AddResetTokenAsync(ResetToken resetToken);
+        Task RemoveResetTokenAsync(ResetToken resetToken);
     }
 }

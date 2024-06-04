@@ -14,6 +14,7 @@ import { NgToastModule } from 'ng-angular-popup';
 import { authGuard } from './guards/auth.guard';
 import { StartComponent } from './components/start/start.component';
 import { tokenInterceptor } from './interceptors/token.interceptor';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
     { path: '', component: StartComponent }  ,
@@ -22,7 +23,9 @@ export const routes: Routes = [
     { path:'calendar', component: CalendarComponent},
     { path:'goals', component: GoalsComponent},
     { path:'login', component: LoginComponent},
-    { path:'signup', component: SignupComponent}
+    { path:'signup', component: SignupComponent},
+    { path:'reset', component: ResetPasswordComponent}
+
 
 
 ];

@@ -113,6 +113,32 @@ namespace MindfulWalletAPI.Controllers
                 return BadRequest("Invalid token");
             }
         }
+
+
+
+
+
+        [HttpPost("send-reset-email/{email}")]
+        public async Task<IActionResult> SendResetEmail(string email)
+        {
+            var result = await _userService.GeneratePasswordResetTokenAsync(email);
+            if (result == "Email doesn't exist") return NotFound(new { Message = result });
+
+            return Ok(new { Message = result });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            var result = await _userService.ResetPasswordAsync(resetPasswordDto);
+            if (result == "Invalid or expired reset token") return BadRequest(new { Message = result });
+
+            return Ok(new { Message = result });
+        }
+
+
+
+
     }
 
 }

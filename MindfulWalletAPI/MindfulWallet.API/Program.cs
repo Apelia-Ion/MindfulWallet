@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MindfulWallet.Aplication.Interfaces.Repository;
 using MindfulWallet.Aplication.Interfaces.Service;
+using MindfulWallet.Aplication.Services;
 using MindfulWallet.Application.Services;
 using MindfulWallet.Infrastructure.Repositories;
 using MindfulWalletAPI.Context;
@@ -45,6 +46,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Configure JWT authentication
 var jwtSettings = builder.Configuration.GetSection("JwtConfig");
