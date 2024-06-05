@@ -26,7 +26,8 @@ export class SignupComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&]).{8,}$/) 
       ]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      acceptTerms: [false, Validators.requiredTrue] 
     }, {
       validator: this.mustMatch('password', 'confirmPassword')  // Adding custom validator for matching passwords
     });

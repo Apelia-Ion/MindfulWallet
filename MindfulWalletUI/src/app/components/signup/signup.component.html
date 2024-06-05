@@ -46,9 +46,12 @@
         </p>
 
         <label class="terms">
-          <input type="checkbox" id="terms">
+          <input formControlName="acceptTerms" type="checkbox" id="terms">
           I agree to all statements in <a href="terms-and-conditions">Terms of service</a>
         </label>
+        <small *ngIf="signupForm.controls['acceptTerms'].dirty && signupForm.hasError('required', 'acceptTerms')" class="text-danger">
+          *You must accept the terms and conditions
+        </small>
         <button (click)="onSignup()" type="submit">Register</button>
       </form>
     </div>
