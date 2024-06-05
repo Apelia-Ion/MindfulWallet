@@ -15,6 +15,7 @@ import { authGuard } from './guards/auth.guard';
 import { StartComponent } from './components/start/start.component';
 import { tokenInterceptor } from './interceptors/token.interceptor';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 
 export const routes: Routes = [
     { path: '', component: StartComponent }  ,
@@ -24,7 +25,8 @@ export const routes: Routes = [
     { path:'goals', component: GoalsComponent},
     { path:'login', component: LoginComponent},
     { path:'signup', component: SignupComponent},
-    { path:'reset', component: ResetPasswordComponent}
+    { path:'reset', component: ResetPasswordComponent},
+    { path:'terms-and-conditions', component: TermsAndConditionsComponent}
 
 
 

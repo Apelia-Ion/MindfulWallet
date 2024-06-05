@@ -54,7 +54,9 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['home']);
           },
           error: (err) => {
-            alert(err.error.message);
+            console.log('Error response:', err);
+            const errorMessage = err.error?.Message || 'An unexpected error occurred.';
+            alert(errorMessage);
           }
         });
     } else {
