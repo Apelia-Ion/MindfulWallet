@@ -22,7 +22,12 @@ builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -44,9 +49,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Register repositories and services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFinanceRepository, FinanceRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+
+
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IFinanceService, FinanceService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+
 
 // Configure JWT authentication
 var jwtSettings = builder.Configuration.GetSection("JwtConfig");

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenApiModel } from '../models/token-api.model';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,18 @@ export class AuthService {
   getRefreshToken(){
     return localStorage.getItem('refreshToken')
   }
+
+  getUserDetailsByUsername(username: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}getUserByUsername/${username}`);
+  }
+
+  getUserId(): Observable<number> {
+    const username = this.getFullNameFromToken();
+    return this.getUserDetailsByUsername(username).pipe(
+      map(user => user.id)
+    );
+  }
+
 
 
 }

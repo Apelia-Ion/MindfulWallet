@@ -20,7 +20,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 export const routes: Routes = [
     { path: '', component: StartComponent }  ,
     { path:'home', component: HomeComponent, canActivate:[authGuard] },
-    { path:'expenses', component: ExpensesComponent },
+    { path:'expenses', component: ExpensesComponent, canActivate:[authGuard] },
     { path:'calendar', component: CalendarComponent},
     { path:'goals', component: GoalsComponent},
     { path:'login', component: LoginComponent},

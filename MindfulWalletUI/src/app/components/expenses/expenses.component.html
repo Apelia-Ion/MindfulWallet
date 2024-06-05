@@ -1,1 +1,30 @@
-<p>expenses works!</p>
+<div class="container">
+  <div class="header">
+    <h1>Finanțele Mele</h1>
+    <button (click)="toggleForm()" class="add-button">Adaugă Cont</button>
+  </div>
+  
+
+  <div *ngIf="showForm" class="form-container">
+    <form [formGroup]="accountForm" (ngSubmit)="addAccount()">
+      <label for="type">Tip Cont</label>
+      <input formControlName="type" id="type" placeholder="Cash/Card/Economii" required>
+      
+      <label for="amount">Suma Disponibilă</label>
+      <input formControlName="amount" id="amount" type="number" required>
+      
+      <button type="submit">Adaugă Cont</button>
+    </form>
+  </div>
+  
+  <!--<pre>{{ accounts | json }}</pre>  Afișează conținutul variabilei accounts -->
+
+  <div class="accounts-grid">
+    <div class="account-card" *ngFor="let account of accounts">
+      <h2>{{ account.type }}</h2>
+      <p>Suma Disponibilă: {{ account.amount }}</p>
+      <p>Cheltuieli Recente:</p> 
+      
+    </div>
+  </div>
+</div>

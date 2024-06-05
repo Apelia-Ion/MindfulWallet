@@ -1,28 +1,31 @@
 <div class="container">
-    <div class="header">
-      <h1>Welcome, {{ userName }}</h1>
-      <p>Your role: {{ userRole }}</p>
-    </div>
-  
-    <div class="users-section">
-      <h2>All Users</h2>
-      <button (click)="toggleUsers()">Toggle Users</button>
-      <table *ngIf="showUsers" class="users-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="header">
+    <h1>Salutări, {{ userName }}!</h1>
   </div>
   
+  <div class="sections">
+    <div class="section sfaturi">
+      <h2>Sfaturi</h2>
+      <p>Personalizează sfaturile bazate pe comportamentul tău financiar.</p>
+      <!-- Includeți aici sfaturi personalizate -->
+    </div>
+    
+    <div class="section goals">
+      <h2>Goals</h2>
+      <p>Setează și monitorizează obiectivele tale financiare.</p>
+      <!-- Includeți aici obiectivele utilizatorului -->
+    </div>
+    
+    <div class="section rapoarte">
+      <h2>Rapoarte</h2>
+      <p>Vizualizează rapoartele detaliate ale cheltuielilor tale.</p>
+      <!-- Includeți aici rapoartele financiare -->
+    </div>
+    
+    <div class="section realizari">
+      <h2>Realizări</h2>
+      <p>Descoperă și monitorizează realizările tale financiare.</p>
+      <!-- Includeți aici realizările și badge-urile utilizatorului -->
+    </div>
+  </div>
+</div>

@@ -22,6 +22,78 @@ namespace MindfulWallet.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("FinanceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FinanceId");
+
+                    b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Expenses");
+                });
+
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Finance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Finances");
+                });
+
             modelBuilder.Entity("MindfulWallet.Core.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -99,6 +171,39 @@ namespace MindfulWallet.Infrastructure.Migrations
                     b.ToTable("users", (string)null);
                 });
 
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Account", b =>
+                {
+                    b.HasOne("MindfulWallet.Core.Entities.Finance", "Finance")
+                        .WithMany("Accounts")
+                        .HasForeignKey("FinanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Finance");
+                });
+
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Expense", b =>
+                {
+                    b.HasOne("MindfulWallet.Core.Entities.Account", "Account")
+                        .WithMany("Expenses")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Finance", b =>
+                {
+                    b.HasOne("MindfulWalletAPI.Models.User", "User")
+                        .WithOne("Finance")
+                        .HasForeignKey("MindfulWallet.Core.Entities.Finance", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MindfulWallet.Core.Entities.RefreshToken", b =>
                 {
                     b.HasOne("MindfulWalletAPI.Models.User", "User")
@@ -119,8 +224,21 @@ namespace MindfulWallet.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Account", b =>
+                {
+                    b.Navigation("Expenses");
+                });
+
+            modelBuilder.Entity("MindfulWallet.Core.Entities.Finance", b =>
+                {
+                    b.Navigation("Accounts");
+                });
+
             modelBuilder.Entity("MindfulWalletAPI.Models.User", b =>
                 {
+                    b.Navigation("Finance")
+                        .IsRequired();
+
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("ResetTokens");

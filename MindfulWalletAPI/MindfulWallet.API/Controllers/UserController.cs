@@ -91,6 +91,19 @@ namespace MindfulWalletAPI.Controllers
             return Ok(user);
         }
 
+        [HttpGet("getUserByUsername/{username}")]
+        public async Task<IActionResult> GetUserByUsername(string username)
+        {
+            var user = await _userService.GetUserByUsernameAsync(username);
+            if (user == null)
+            {
+                return NotFound(new { Message = "User not found" });
+            }
+            return Ok(user);
+        }
+
+
+
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh(TokenApiDto tokenApiDto)
         {

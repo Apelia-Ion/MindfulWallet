@@ -15,13 +15,19 @@ namespace MindfulWallet.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IFinanceRepository _financeRepository;
         private readonly ITokenService _tokenService;
         private readonly ILogger _logger;
         private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, IEmailService emailService, ITokenService tokenService, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository,
+            IEmailService emailService,
+            ITokenService tokenService,
+            ILogger<UserService> logger,
+            IFinanceRepository financeRepository)
         {
             _userRepository = userRepository;
+            _financeRepository = financeRepository;
             _emailService = emailService;
             _tokenService = tokenService;
             _logger = logger;
@@ -72,6 +78,15 @@ namespace MindfulWallet.Application.Services
             };
 
             await _userRepository.AddUserAsync(user);
+
+            var finance = new Finance
+            {
+                UserId = user.Id,
+                User = user,
+                Accounts = new List<Account>()
+            };
+
+            var createdFinance = await _financeRepository.AddFinanceAsync(finance);
             return "User Registered";
         }
 
@@ -85,6 +100,10 @@ namespace MindfulWallet.Application.Services
             return await _userRepository.GetUserByEmailAsync(email);
         }
 
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            return await _userRepository.GetUserByUsernameAsync(username);
+        }
 
         public async Task<TokenApiDto> RefreshTokenAsync(TokenApiDto tokenApiDto)
         {

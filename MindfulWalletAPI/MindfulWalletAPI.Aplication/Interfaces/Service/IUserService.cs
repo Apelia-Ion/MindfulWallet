@@ -11,10 +11,20 @@ namespace MindfulWallet.Aplication.Interfaces.Service
 {
     public interface IUserService
     {
+
+        //authenticate
         Task<TokenApiDto> AuthenticateAsync(string email, string password);
         Task<string> RegisterUserAsync(RegisterModel registerModel);
+
+        //utilities
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByEmailAsync(string email);
+
+        Task<User> GetUserByUsernameAsync(string username);
+        
+
+        //tokens
+
         Task<TokenApiDto> RefreshTokenAsync(TokenApiDto tokenApiDto);
 
         Task<string> GeneratePasswordResetTokenAsync(string email);
