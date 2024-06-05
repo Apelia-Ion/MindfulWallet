@@ -1,19 +1,92 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B083F1AA-1A7A-44F4-B4C6-E28C4315FF7E}|MindfulWallet.API\\MindfulWallet.API.csproj|c:\\users\\ionap\\desktop\\school\\licenta\\mindfulwallet\\mindfulwalletapi\\mindfulwallet.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B083F1AA-1A7A-44F4-B4C6-E28C4315FF7E}|MindfulWallet.API\\MindfulWallet.API.csproj|solutionrelative:mindfulwallet.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10DD0FEF-27C1-4C79-9928-96416907566E}|MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj|c:\\users\\ionap\\desktop\\school\\licenta\\mindfulwallet\\mindfulwalletapi\\mindfulwalletapi.aplication\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10DD0FEF-27C1-4C79-9928-96416907566E}|MindfulWalletAPI.Aplication\\MindfulWallet.Aplication.csproj|solutionrelative:mindfulwalletapi.aplication\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B03E89D2-E99C-48BB-BE2E-1752E9574252}|MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj|c:\\users\\ionap\\desktop\\school\\licenta\\mindfulwallet\\mindfulwalletapi\\mindfulwalletapi.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B03E89D2-E99C-48BB-BE2E-1752E9574252}|MindfulWalletAPI.Infrastructure\\MindfulWallet.Infrastructure.csproj|solutionrelative:mindfulwalletapi.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 0,
+      "Orientation": 1,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
+          "DockedHeight": 236,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWallet.API\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "MindfulWallet.API\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWallet.API\\Controllers\\UserController.cs",
+              "RelativeToolTip": "MindfulWallet.API\\Controllers\\UserController.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAuwCEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T21:51:33.431Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "MindfulWalletAPI.Aplication\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Aplication\\Services\\UserService.cs",
+              "RelativeToolTip": "MindfulWalletAPI.Aplication\\Services\\UserService.cs",
+              "ViewState": "AQIAAJcAAAAAAAAAAAAAAKgAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-29T12:01:13.819Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "MindfulWalletAPI.Infrastructure\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\ionap\\Desktop\\SCHOOL\\Licenta\\MindfulWallet\\MindfulWalletAPI\\MindfulWalletAPI.Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "MindfulWalletAPI.Infrastructure\\Repositories\\UserRepository.cs",
+              "ViewState": "AQIAAEYAAAAAAAAAAAAvwFIAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-05T11:28:31.694Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 162,
           "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "Name": "ST:0:0:{28836128-fc2c-11d2-a433-00c04f72d18a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

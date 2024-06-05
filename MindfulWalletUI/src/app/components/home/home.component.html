@@ -1,1 +1,28 @@
-<p>home works!</p>
+<div class="container">
+    <div class="header">
+      <h1>Welcome, {{ userName }}</h1>
+      <p>Your role: {{ userRole }}</p>
+    </div>
+  
+    <div class="users-section">
+      <h2>All Users</h2>
+      <button (click)="toggleUsers()">Toggle Users</button>
+      <table *ngIf="showUsers" class="users-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

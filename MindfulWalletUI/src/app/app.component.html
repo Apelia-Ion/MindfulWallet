@@ -1,3 +1,4 @@
+<router-outlet></router-outlet>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand" href="#">
@@ -26,12 +27,18 @@
               Get inspired
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Instagram</a></li>
-              <li><a class="dropdown-item" href="#">YouTube</a></li>
+              <li><a class="dropdown-item" href="https://www.instagram.com/mindfulwalletapp/">Instagram</a></li>
+              <li><a class="dropdown-item" href="https://www.youtube.com/channel/UCTxxL-N3FwAyqlreKMdhzRA">YouTube</a></li>
             </ul>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" routerLink="auth" routerLinkActive="active" ariaCurrentWhenActive="page">Login/Sign-up</a>
+            <a class="nav-link" routerLink="login" routerLinkActive="active" ariaCurrentWhenActive="page">Login</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <a class="nav-link" routerLink="signup" routerLinkActive="active" ariaCurrentWhenActive="page">Signup</a>
+          </li>
+          <li class="nav-item ms-auto" *ngIf='isLoggedIn'>
+            <a class="nav-link" (click)="onLogout()">Logout</a>
           </li>
         </ul>
       </div>
@@ -39,4 +46,4 @@
   </nav>
 
 
-<router-outlet />
+<router-outlet/>
