@@ -31,28 +31,12 @@
   </div>
 
   <div class="expense-reports">
-    <div class="expense-card cash-expense-card">
-      <h3>Raport Cheltuieli - Cash</h3>
+    <div *ngFor="let report of expenseReports" class="expense-report-card">
+      <h3>Raport - {{ report.accountType }}</h3>
+      <p>Total Cheltuieli: {{ report.totalExpenses }} lei</p>
+      <p>Număr de Cheltuieli: {{ report.numberOfExpenses }}</p>
       <ul>
-        <li *ngFor="let expense of cashExpenses">
-          {{ expense.description }} - {{ expense.amount }} lei
-        </li>
-      </ul>
-    </div>
-
-    <div class="expense-card card-expense-card">
-      <h3>Raport Cheltuieli - Card</h3>
-      <ul>
-        <li *ngFor="let expense of cardExpenses">
-          {{ expense.description }} - {{ expense.amount }} lei
-        </li>
-      </ul>
-    </div>
-
-    <div class="expense-card savings-expense-card">
-      <h3>Raport Cheltuieli - Economii</h3>
-      <ul>
-        <li *ngFor="let expense of savingsExpenses">
+        <li *ngFor="let expense of report.expenses">
           {{ expense.description }} - {{ expense.amount }} lei
         </li>
       </ul>

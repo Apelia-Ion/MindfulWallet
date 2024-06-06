@@ -25,6 +25,7 @@ export class ExpensesComponent implements OnInit {
   public savingsExpenses: any[] = [];
   public currentAccountId: number | null = null;
   public finance: any;
+  public expenseReports: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -63,12 +64,14 @@ export class ExpensesComponent implements OnInit {
             this.financeService.getLastThreeExpenses(account.id).subscribe(expenses => {
               if (expenses && Array.isArray(expenses.$values)) {
                 account.expenses = expenses.$values; // Store last three expenses in the account object
-                this.updateExpenses(account); // Update separate arrays
               } else {
-                console.error('Expenses is not an array:', expenses);
+                account.expenses = []; // Initialize as empty array if not an array
               }
+              this.updateExpenses(account); // Update separate arrays
             }, error => {
               console.error('Error fetching last three expenses:', error);
+              account.expenses = []; // Initialize as empty array on error
+              this.updateExpenses(account); // Update separate arrays
             });
           });
         } else {
@@ -135,6 +138,20 @@ export class ExpensesComponent implements OnInit {
         this.savingsExpenses = account.expenses;
         break;
     }
+    this.generateExpenseReports(); // Generate expense reports
+  }
+
+  generateExpenseReports(): void {
+    this.expenseReports = this.accounts.filter(account => account.expenses && account.expenses.length > 0).map(account => {
+      const totalExpenses = account.expenses.reduce((sum: number, expense: any) => sum + expense.amount, 0);
+      const numberOfExpenses = account.expenses.length;
+      return {
+        accountType: account.type,
+        totalExpenses,
+        numberOfExpenses,
+        expenses: account.expenses
+      };
+    });
   }
 
   openAddAccountModal(): void {

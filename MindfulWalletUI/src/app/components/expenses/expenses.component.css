@@ -176,17 +176,16 @@ button[type="submit"]:hover {
   margin-top: 20px;
 }
 
-.cash-expense-card {
-  background-color: #e3f2fd; /* Light blue */
+.expense-report-card {
+  background-color: #ffcccb; /* Light pink */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.card-expense-card {
-  background-color: #ffe0b2; /* Light orange */
-}
-
-.savings-expense-card {
-  background-color: #c8e6c9; /* Light green */
-}
 
 /* Styles for the add-expense-button */
 .add-expense-button {
