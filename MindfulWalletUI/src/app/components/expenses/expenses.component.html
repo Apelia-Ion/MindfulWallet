@@ -1,37 +1,32 @@
 <div class="container">
   <div class="header">
     <h1>Finanțele Mele</h1>
-    <button (click)="toggleForm()" class="add-button">Adaugă Cont</button>
-  </div>
-
-  <div *ngIf="showForm" class="form-container">
-    <form [formGroup]="accountForm" (ngSubmit)="addAccount()">
-      <label for="type">Tip Cont</label>
-      <input formControlName="type" id="type" placeholder="Cash/Card/Economii" required>
-      
-      <label for="amount">Suma Disponibilă</label>
-      <input formControlName="amount" id="amount" type="number" required>
-      
-      <button type="submit">Adaugă Cont</button>
-    </form>
+    <button (click)="openAddAccountModal()" class="add-button">Adaugă Cont </button>
   </div>
 
   <div class="total-amount-container">
-    <div class="total-amount">Total Disponibil: {{ totalAmount }} lei</div> <!-- Afișează totalul într-un chenar roz -->
+    <div class="total-amount">Total Disponibil: {{ totalAmount }} lei</div>
   </div>
+
+
 
   <div class="accounts-grid">
     <div class="account-card" *ngFor="let account of accounts">
       <h2>{{ account.type }}</h2>
       <p>Suma Disponibilă: {{ account.amount }}</p>
-      <p>Cheltuieli Recente:</p> 
-      <ul *ngIf="account.expenses">
+      <p class="cheltuieli-recente">Cheltuieli Recente:
+        <button class="add-expense-button" (click)="openAddExpenseModal(account.id)">
+          <img src="assets/add-button.png" alt="Adaugă Cheltuială" class="add-icon">
+        </button>
+      </p>
+      <ul *ngIf="account.expenses && account.expenses.length > 0">
         <li *ngFor="let expense of account.expenses">
           {{ expense.description }} - {{ expense.amount }} lei
+          <button (click)="deleteExpense(expense.id)" class="delete-expense-button">X</button>
         </li>
       </ul>
       <button class="delete-button" (click)="deleteAccount(account.id)">
-        <img src="assets/delete-icon.png" alt="Șterge" class="delete-icon"> <!-- Iconița din assets -->
+        <img src="assets/delete-icon.png" alt="Șterge" class="delete-icon">
       </button>
     </div>
   </div>
@@ -63,5 +58,42 @@
         </li>
       </ul>
     </div>
+  </div>
+</div>
+
+<!-- Add Account Modal -->
+<div class="modal" [ngClass]="{'show-modal': showAddAccountModal}">
+  <div class="modal-content">
+    <h4>Adauga Cont:</h4>
+    <span class="close-button" (click)="closeAddAccountModal()">&times;</span>
+    <form [formGroup]="accountForm" (ngSubmit)="addAccount()">
+      <label for="type">Tip Cont</label>
+      <input formControlName="type" id="type" placeholder="Cash/Card/Economii" required>
+      
+      <label for="amount">Suma Disponibilă</label>
+      <input formControlName="amount" id="amount" type="number" placeholder="Suma" required>
+      
+      <button type="submit">Adaugă Cont</button>
+    </form>
+  </div>
+</div>
+
+<!-- Add Expense Modal -->
+<div class="modal" [ngClass]="{'show-modal': showAddExpenseModal}">
+  <div class="modal-content">
+    <h4>Adauga cheltuiala:</h4>
+    <span class="close-button" (click)="closeAddExpenseModal()">&times;</span>
+    <form [formGroup]="expenseForm" (ngSubmit)="addExpense(currentAccountId!)">
+      <label for="description">Descriere</label>
+      <input formControlName="description" id="description" placeholder="Descriere" required>
+      
+      <label for="amount">Suma</label>
+      <input formControlName="amount" id="amount" placeholder="999" type="number" required>
+
+      <label for="date">Data</label>
+      <input formControlName="date" id="date" type="date" required>
+      
+      <button type="submit">Adaugă Cheltuială</button>
+    </form>
   </div>
 </div>

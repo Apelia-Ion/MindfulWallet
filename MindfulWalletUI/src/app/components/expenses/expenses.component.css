@@ -1,17 +1,107 @@
+/* Modal CSS */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #e5c0c0;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close-button {
+  color: #060505;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.show-modal {
+  display: block;
+}
+
+h4 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Additional Styles */
 .container {
   padding: 20px;
 }
 
 .header {
   display: flex;
-  justify-content: center; /* Centrează titlul */
+  justify-content: center; /* Center the title */
   align-items: center;
-  position: relative; /* Permite poziționarea absolută a butonului de adăugare */
+  position: relative; /* Allow for absolute positioning of the add button */
 }
 
 .add-button {
   position: absolute;
-  right: 0; /* Poziționează butonul de adăugare în dreapta */
+  right: 0; /* Position the add button to the right */
   background-color: #007bff;
   color: white;
   border: none;
@@ -21,13 +111,13 @@
 
 .total-amount-container {
   display: flex;
-  justify-content: center; /* Centrează conținutul */
+  justify-content: center; /* Center the content */
   margin-top: 20px;
   margin-bottom: 40px;
 }
 
 .total-amount {
-  background-color: #ffcccb; /* Roz */
+  background-color: #ffcccb; /* Pink background */
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 18px;
@@ -43,7 +133,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center; /* Centrează cardurile conturilor */
+  justify-content: center; /* Center the account cards */
 }
 
 .account-card,
@@ -54,7 +144,7 @@
   padding: 20px;
   width: 300px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  position: relative; /* Adăugat pentru poziționarea absolută a butonului */
+  position: relative; /* Added for absolute positioning of the button */
 }
 
 .account-card h2,
@@ -65,24 +155,24 @@
 .delete-button {
   position: absolute;
   top: 20px;
-  right: 0px;
+  right: 10px;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0; /* Elimină padding-ul implicit al butonului */
+  padding: 0; /* Remove default button padding */
 }
 
 .delete-icon {
-  width: 30px; /* Setează lățimea imaginii */
-  height: 30px; /* Setează înălțimea imaginii */
-  object-fit: cover; /* Asigură că imaginea se potrivește în dimensiunea setată */
+  width: 30px; /* Set image width */
+  height: 30px; /* Set image height */
+  object-fit: cover; /* Ensure image fits the dimensions */
 }
 
 .expense-reports {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center; /* Centrează rapoartele */
+  justify-content: center; /* Center the reports */
   margin-top: 20px;
 }
 
@@ -96,4 +186,34 @@
 
 .savings-expense-card {
   background-color: #c8e6c9; /* Light green */
+}
+
+/* Styles for the add-expense-button */
+.add-expense-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.add-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+}
+
+.cheltuieli-recente {
+  display: flex;
+  align-items: center;
+}
+
+.delete-expense-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
 }

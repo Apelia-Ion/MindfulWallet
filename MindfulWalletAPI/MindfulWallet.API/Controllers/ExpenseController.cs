@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MindfulWallet.Aplication.Interfaces.Service;
+using MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.Entities;
 
 namespace MindfulWallet.API.Controllers
@@ -29,9 +30,23 @@ namespace MindfulWallet.API.Controllers
         }
 
         // Endpoint pentru adaugarea unei noi cheltuieli in cont
+
         [HttpPost]
-        public async Task<IActionResult> CreateExpense([FromBody] Expense expense)
+        public async Task<IActionResult> CreateExpense([FromBody] ExpenseDTO expenseDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var expense = new Expense
+            {
+                AccountId = expenseDto.AccountId,
+                Amount = expenseDto.Amount,
+                Date = expenseDto.Date,
+                Description = expenseDto.Description
+            };
+
             var createdExpense = await _expenseService.AddExpenseAsync(expense);
             return CreatedAtAction(nameof(GetLastThreeExpenses), new { accountId = expense.AccountId }, createdExpense);
         }
