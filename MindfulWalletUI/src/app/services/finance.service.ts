@@ -17,4 +17,8 @@ export class FinanceService {
   addAccount(userId: number, account: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Account/${userId}`, account);
   }
+
+  deleteAccount(accountId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/Account/${accountId}`);
+  }
 }

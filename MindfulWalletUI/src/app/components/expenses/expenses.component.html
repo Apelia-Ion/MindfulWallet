@@ -3,7 +3,6 @@
     <h1>Finanțele Mele</h1>
     <button (click)="toggleForm()" class="add-button">Adaugă Cont</button>
   </div>
-  
 
   <div *ngIf="showForm" class="form-container">
     <form [formGroup]="accountForm" (ngSubmit)="addAccount()">
@@ -16,15 +15,53 @@
       <button type="submit">Adaugă Cont</button>
     </form>
   </div>
-  
-  <!--<pre>{{ accounts | json }}</pre>  Afișează conținutul variabilei accounts -->
+
+  <div class="total-amount-container">
+    <div class="total-amount">Total Disponibil: {{ totalAmount }} lei</div> <!-- Afișează totalul într-un chenar roz -->
+  </div>
 
   <div class="accounts-grid">
     <div class="account-card" *ngFor="let account of accounts">
       <h2>{{ account.type }}</h2>
       <p>Suma Disponibilă: {{ account.amount }}</p>
       <p>Cheltuieli Recente:</p> 
-      
+      <ul *ngIf="account.expenses">
+        <li *ngFor="let expense of account.expenses">
+          {{ expense.description }} - {{ expense.amount }} lei
+        </li>
+      </ul>
+      <button class="delete-button" (click)="deleteAccount(account.id)">
+        <img src="assets/delete-icon.png" alt="Șterge" class="delete-icon"> <!-- Iconița din assets -->
+      </button>
+    </div>
+  </div>
+
+  <div class="expense-reports">
+    <div class="expense-card cash-expense-card">
+      <h3>Raport Cheltuieli - Cash</h3>
+      <ul>
+        <li *ngFor="let expense of cashExpenses">
+          {{ expense.description }} - {{ expense.amount }} lei
+        </li>
+      </ul>
+    </div>
+
+    <div class="expense-card card-expense-card">
+      <h3>Raport Cheltuieli - Card</h3>
+      <ul>
+        <li *ngFor="let expense of cardExpenses">
+          {{ expense.description }} - {{ expense.amount }} lei
+        </li>
+      </ul>
+    </div>
+
+    <div class="expense-card savings-expense-card">
+      <h3>Raport Cheltuieli - Economii</h3>
+      <ul>
+        <li *ngFor="let expense of savingsExpenses">
+          {{ expense.description }} - {{ expense.amount }} lei
+        </li>
+      </ul>
     </div>
   </div>
 </div>
