@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MindfulWallet.Core.Entities;
 using MindfulWallet.Aplication.Interfaces.Service;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MindfulWalletAPI.Controllers
@@ -25,7 +26,27 @@ namespace MindfulWalletAPI.Controllers
             {
                 return NotFound(new { Message = "Finance not found for the given user." });
             }
-            return Ok(finance.Accounts);
+
+            var result = new
+            {
+                accounts = finance.Accounts.Select(a => new
+                {
+                    a.Id,
+                    a.Type,
+                    a.Amount,
+                    a.Balance,
+                    expenses = a.Expenses.Select(e => new
+                    {
+                        e.Id,
+                        e.Description,
+                        e.Amount,
+                        e.Date
+                    }).ToList()
+                }).ToList(),
+                totalAmount = finance.TotalAmount
+            };
+
+            return Ok(result);
         }
     }
 }

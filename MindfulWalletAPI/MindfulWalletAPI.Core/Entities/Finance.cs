@@ -16,5 +16,14 @@ namespace MindfulWallet.Core.Entities
         // Relație 1-N cu Conturi
         public ICollection<Account> Accounts { get; set; } = new List<Account>();
 
+        public decimal TotalAmount
+        {
+            get
+            {
+                return Accounts?.Sum(a => a.Balance) ?? 0;
+            }
+
+        }
+
     }
 }

@@ -10,7 +10,7 @@ export class FinanceService {
 
   constructor(private http: HttpClient) {}
 
-  getAccounts(userId: number): Observable<any> {
+  getFinance(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/Finance/${userId}`);
   }
 

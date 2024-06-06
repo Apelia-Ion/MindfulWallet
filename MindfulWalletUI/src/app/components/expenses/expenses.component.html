@@ -1,19 +1,17 @@
 <div class="container">
   <div class="header">
     <h1>Finanțele Mele</h1>
-    <button (click)="openAddAccountModal()" class="add-button">Adaugă Cont </button>
+    <button (click)="openAddAccountModal()" class="add-button">Adaugă Cont</button>
   </div>
 
   <div class="total-amount-container">
     <div class="total-amount">Total Disponibil: {{ totalAmount }} lei</div>
   </div>
 
-
-
   <div class="accounts-grid">
     <div class="account-card" *ngFor="let account of accounts">
       <h2>{{ account.type }}</h2>
-      <p>Suma Disponibilă: {{ account.amount }}</p>
+      <p>Suma Disponibilă: {{ account.balance }} lei</p>
       <p class="cheltuieli-recente">Cheltuieli Recente:
         <button class="add-expense-button" (click)="openAddExpenseModal(account.id)">
           <img src="assets/add-button.png" alt="Adaugă Cheltuială" class="add-icon">
@@ -22,7 +20,7 @@
       <ul *ngIf="account.expenses && account.expenses.length > 0">
         <li *ngFor="let expense of account.expenses">
           {{ expense.description }} - {{ expense.amount }} lei
-          <button (click)="deleteExpense(expense.id)" class="delete-expense-button">X</button>
+          <button (click)="deleteExpense(account.id, expense.id)" class="delete-expense-button">X</button>
         </li>
       </ul>
       <button class="delete-button" (click)="deleteAccount(account.id)">

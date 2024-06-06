@@ -17,8 +17,10 @@ public class FinanceRepository : IFinanceRepository
     {
         return await _context.Finances
             .Include(f => f.Accounts)
+                .ThenInclude(a => a.Expenses)
             .FirstOrDefaultAsync(f => f.UserId == userId);
     }
+
 
     public async Task<Finance> AddFinanceAsync(Finance finance)
     {

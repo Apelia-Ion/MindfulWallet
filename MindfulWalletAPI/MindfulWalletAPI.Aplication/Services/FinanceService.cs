@@ -1,10 +1,6 @@
 ﻿using MindfulWallet.Aplication.Interfaces.Repository;
 using MindfulWallet.Aplication.Interfaces.Service;
 using MindfulWallet.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MindfulWallet.Aplication.Services
@@ -20,7 +16,8 @@ namespace MindfulWallet.Aplication.Services
 
         public async Task<Finance> GetFinanceByUserIdAsync(int userId)
         {
-            return await _financeRepository.GetFinanceByUserIdAsync(userId);
+            var finance = await _financeRepository.GetFinanceByUserIdAsync(userId);
+            return finance;
         }
     }
 }

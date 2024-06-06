@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MindfulWallet.Aplication.Interfaces.Service;
 using MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.Entities;
+using System.Threading.Tasks;
 
 namespace MindfulWallet.API.Controllers
 {
@@ -11,10 +11,12 @@ namespace MindfulWallet.API.Controllers
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
+        private readonly IAccountService _accountService;
 
-        public ExpenseController(IExpenseService expenseService)
+        public ExpenseController(IExpenseService expenseService, IAccountService accountService)
         {
             _expenseService = expenseService;
+            _accountService = accountService;
         }
 
         // Endpoint pentru obținerea ultimelor 3 cheltuieli pentru un cont
@@ -29,8 +31,7 @@ namespace MindfulWallet.API.Controllers
             return Ok(expenses);
         }
 
-        // Endpoint pentru adaugarea unei noi cheltuieli in cont
-
+        // Endpoint pentru adăugarea unei noi cheltuieli în cont și actualizarea sumei disponibile
         [HttpPost]
         public async Task<IActionResult> CreateExpense([FromBody] ExpenseDTO expenseDto)
         {
@@ -48,21 +49,28 @@ namespace MindfulWallet.API.Controllers
             };
 
             var createdExpense = await _expenseService.AddExpenseAsync(expense);
+           // await _accountService.UpdateAccountBalance(expense.AccountId, -expense.Amount); // Scade suma cheltuielii din cont
             return CreatedAtAction(nameof(GetLastThreeExpenses), new { accountId = expense.AccountId }, createdExpense);
         }
 
-        // Endpoint pentru stergerea unei cheltuieli
-
+        // Endpoint pentru ștergerea unei cheltuieli și actualizarea sumei disponibile în cont
         [HttpDelete("{expenseId}")]
         public async Task<IActionResult> DeleteExpense(int expenseId)
         {
-            var result = await _expenseService.DeleteExpenseAsync(expenseId);
-            if (!result)
+            var expense = await _expenseService.GetExpenseByIdAsync(expenseId);
+            if (expense == null)
             {
                 return NotFound(new { Message = "Expense not found" });
             }
-            return NoContent();
-        }
 
+            var result = await _expenseService.DeleteExpenseAsync(expenseId);
+            if (result)
+            {
+                await _accountService.UpdateAccountBalance(expense.AccountId, expense.Amount); // Adaugă suma cheltuielii înapoi în cont
+                return NoContent();
+            }
+
+            return BadRequest(new { Message = "Error deleting expense" });
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using MindfulWallet.Aplication.Interfaces.Repository;
 using MindfulWallet.Aplication.Interfaces.Service;
 using MindfulWallet.Core.Entities;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MindfulWallet.Application.Services
@@ -35,6 +34,16 @@ namespace MindfulWallet.Application.Services
         public async Task<bool> DeleteAccountAsync(int accountId)
         {
             return await _accountRepository.DeleteAccountAsync(accountId);
+        }
+
+        public async Task UpdateAccountBalance(int accountId, decimal amountChange)
+        {
+            var account = await _accountRepository.GetAccountByIdAsync(accountId);
+            if (account != null)
+            {
+                account.Amount += amountChange;
+                await _accountRepository.UpdateAsync(account);
+            }
         }
     }
 }

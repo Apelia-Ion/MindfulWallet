@@ -12,5 +12,6 @@ namespace MindfulWallet.Aplication.Interfaces.Service
         Task<Account> GetAccountByIdAsync(int accountId);
         Task<Account> AddAccountAsync(int userId, Account account);
         Task<bool> DeleteAccountAsync(int accountId);
+        Task UpdateAccountBalance(int accountId, decimal amountChange);
     }
 }
