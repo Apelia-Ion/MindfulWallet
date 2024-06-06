@@ -34,6 +34,14 @@ namespace MindfulWallet.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Expense>> GetAllExpensesByAccountIdAsync(int accountId)  // Adaugă această metodă
+        {
+            return await _context.Expenses
+                .Where(e => e.AccountId == accountId)
+                .OrderByDescending(e => e.Date)
+                .ToListAsync();
+        }
+
         public async Task<Expense> AddExpenseAsync(Expense expense)
         {
             _context.Expenses.Add(expense);

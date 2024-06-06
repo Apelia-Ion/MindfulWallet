@@ -12,7 +12,6 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.css']
 })
-
 export class ExpensesComponent implements OnInit {
   public accountForm: FormGroup;
   public expenseForm: FormGroup;
@@ -30,6 +29,8 @@ export class ExpensesComponent implements OnInit {
   public cashExpenses: any[] = [];
   public cardExpenses: any[] = [];
   public savingsExpenses: any[] = [];
+
+  public allExpenses: { [key: number]: any[] } = {};  // Cheltuieli pentru fiecare cont, cheile sunt ID-urile conturilor
 
   constructor(
     private fb: FormBuilder,
@@ -67,18 +68,24 @@ export class ExpensesComponent implements OnInit {
           this.accounts = finance.accounts.$values;
           this.totalAmount = finance.totalAmount;
 
-          // Load the last three expenses for each account
+          // Load all expenses for each account
           this.accounts.forEach(account => {
-            this.financeService.getLastThreeExpenses(account.id).subscribe(expenses => {
+            this.financeService.getAllExpenses(account.id).subscribe(expenses => {
               if (expenses && Array.isArray(expenses.$values)) {
-                account.expenses = expenses.$values; // Store last three expenses in the account object
+                this.allExpenses[account.id] = expenses.$values; // Store all expenses separately
+                console.log("id cont curent", account.id);
+                account.expenses = expenses.$values.slice(0, 3); // Store last three expenses in the account object
+                console.log("ultimele 3: ", account.expenses);
+                console.log("Toate cheltuielile ", this.allExpenses[account.id]);
               } else {
                 account.expenses = []; // Initialize as empty array if not an array
+                this.allExpenses[account.id] = [];
               }
               this.updateExpenses(account); // Update separate arrays
             }, error => {
-              console.error('Error fetching last three expenses:', error);
+              console.error('Error fetching all expenses:', error);
               account.expenses = []; // Initialize as empty array on error
+              this.allExpenses[account.id] = [];
               this.updateExpenses(account); // Update separate arrays
             });
           });
@@ -168,14 +175,14 @@ export class ExpensesComponent implements OnInit {
   }
 
   generateExpenseReports(): void {
-    this.expenseReports = this.accounts.filter(account => account.expenses && account.expenses.length > 0).map(account => {
-      const totalExpenses = account.expenses.reduce((sum: number, expense: any) => sum + expense.amount, 0);
-      const numberOfExpenses = account.expenses.length;
+    this.expenseReports = this.accounts.filter(account => this.allExpenses[account.id] && this.allExpenses[account.id].length > 0).map(account => {
+      const totalExpenses = this.allExpenses[account.id].reduce((sum: number, expense: any) => sum + expense.amount, 0);
+      const numberOfExpenses = this.allExpenses[account.id].length;
       return {
         accountType: account.type,
         totalExpenses,
         numberOfExpenses,
-        expenses: account.expenses
+        expenses: this.allExpenses[account.id]
       };
     });
   }

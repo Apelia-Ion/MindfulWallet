@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MindfulWallet.Aplication.Interfaces.Service;
+using MindfulWallet.Aplication.Services;
 using MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.DTOs.MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.Entities;
@@ -12,10 +13,12 @@ namespace MindfulWalletAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IExpenseService _expenseService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IExpenseService expenseService)
         {
             _accountService = accountService;
+            _expenseService = expenseService;
         }
 
         // Endpoint pentru obținerea unui cont cu ultimele 3 cheltuieli
@@ -36,6 +39,18 @@ namespace MindfulWalletAPI.Controllers
 
             return Ok(account);
         }
+
+        [HttpGet("{accountId}/expenses")]
+        public async Task<IActionResult> GetAllExpenses(int accountId)
+        {
+            var expenses = await _expenseService.GetAllExpensesByAccountIdAsync(accountId);
+            if (expenses == null || !expenses.Any())
+            {
+                return NotFound(new { Message = "No expenses found for the given account." });
+            }
+            return Ok(expenses);
+        }
+
 
         // Endpoint pentru adăugarea unui cont
         [HttpPost("{userId}")]

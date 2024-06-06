@@ -11,6 +11,7 @@ namespace MindfulWallet.Aplication.Interfaces.Service
     {
         Task<Expense> GetExpenseByIdAsync(int expenseId);
         Task<IEnumerable<Expense>> GetLastThreeExpensesByAccountIdAsync(int accountId);
+        Task<IEnumerable<Expense>> GetAllExpensesByAccountIdAsync(int accountId);
         Task<Expense> AddExpenseAsync(Expense expense);
         Task<bool> DeleteExpenseAsync(int expenseId);
     }

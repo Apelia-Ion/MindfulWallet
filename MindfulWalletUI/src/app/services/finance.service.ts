@@ -34,6 +34,10 @@ export class FinanceService {
     return this.http.get<any>(`${this.apiUrl}/Expense/lastThree/${accountId}`);
   }
 
+  getAllExpenses(accountId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Account/${accountId}/expenses`);
+  }
+
   addFunds(funds: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Account/addFunds`, funds);
   }

@@ -28,6 +28,11 @@ namespace MindfulWallet.Aplication.Services
             return await _expenseRepository.GetLastThreeExpensesByAccountIdAsync(accountId);
         }
 
+        public async Task<IEnumerable<Expense>> GetAllExpensesByAccountIdAsync(int accountId)  
+        {
+            return await _expenseRepository.GetAllExpensesByAccountIdAsync(accountId);
+        }
+
         public async Task<Expense> AddExpenseAsync(Expense expense)
         {
             return await _expenseRepository.AddExpenseAsync(expense);
