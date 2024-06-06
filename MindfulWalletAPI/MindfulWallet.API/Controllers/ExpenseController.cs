@@ -49,7 +49,7 @@ namespace MindfulWallet.API.Controllers
             };
 
             var createdExpense = await _expenseService.AddExpenseAsync(expense);
-           // await _accountService.UpdateAccountBalance(expense.AccountId, -expense.Amount); // Scade suma cheltuielii din cont
+            //await _accountService.UpdateAccountAmount(expense.AccountId, -expense.Amount); // Scade suma cheltuielii din cont
             return CreatedAtAction(nameof(GetLastThreeExpenses), new { accountId = expense.AccountId }, createdExpense);
         }
 

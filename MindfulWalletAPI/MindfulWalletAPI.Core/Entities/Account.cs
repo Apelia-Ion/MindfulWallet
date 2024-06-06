@@ -10,6 +10,7 @@ public class Account : BaseEntity
 
     // Relație 1-N cu Cheltuieli
     public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+    public ICollection<Report> Reports { get; set; } = new List<Report>();
 
     public decimal Balance
     {

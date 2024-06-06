@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { FinanceService } from '../../services/finance.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { ReportService } from '../../services/report.service'; // Importăm serviciul de rapoarte
 
 @Component({
   selector: 'app-expenses',
@@ -35,7 +36,8 @@ export class ExpensesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private financeService: FinanceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private reportService: ReportService // Injectăm serviciul de rapoarte
   ) {
     this.accountForm = this.fb.group({
       type: [''],
@@ -70,29 +72,35 @@ export class ExpensesComponent implements OnInit {
 
           // Load all expenses for each account
           this.accounts.forEach(account => {
-            this.financeService.getAllExpenses(account.id).subscribe(expenses => {
-              if (expenses && Array.isArray(expenses.$values)) {
-                this.allExpenses[account.id] = expenses.$values; // Store all expenses separately
-                console.log("id cont curent", account.id);
-                account.expenses = expenses.$values.slice(0, 3); // Store last three expenses in the account object
-                console.log("ultimele 3: ", account.expenses);
-                console.log("Toate cheltuielile ", this.allExpenses[account.id]);
-              } else {
-                account.expenses = []; // Initialize as empty array if not an array
-                this.allExpenses[account.id] = [];
-              }
-              this.updateExpenses(account); // Update separate arrays
-            }, error => {
-              console.error('Error fetching all expenses:', error);
-              account.expenses = []; // Initialize as empty array on error
-              this.allExpenses[account.id] = [];
-              this.updateExpenses(account); // Update separate arrays
-            });
+            this.loadExpenses(account);
           });
         } else {
           console.error('Accounts is not an array:', finance.accounts);
         }
       });
+    });
+  }
+
+  loadExpenses(account: any): void {
+    this.financeService.getAllExpenses(account.id).subscribe(expenses => {
+      if (expenses && Array.isArray(expenses.$values)) {
+        this.allExpenses[account.id] = expenses.$values; // Store all expenses separately
+        console.log("id cont curent", account.id);
+        account.expenses = expenses.$values.slice(0, 3); // Store last three expenses in the account object
+        console.log("ultimele 3: ", account.expenses);
+        console.log("Toate cheltuielile ", this.allExpenses[account.id]);
+        this.updateExpenses(account); // Update separate arrays
+        this.generateMonthlyReport(account.id); // Generate and save report
+      } else {
+        account.expenses = []; // Initialize as empty array if not an array
+        this.allExpenses[account.id] = [];
+        this.updateExpenses(account); // Update separate arrays
+      }
+    }, error => {
+      console.error('Error fetching all expenses:', error);
+      account.expenses = []; // Initialize as empty array on error
+      this.allExpenses[account.id] = [];
+      this.updateExpenses(account); // Update separate arrays
     });
   }
 
@@ -185,6 +193,33 @@ export class ExpensesComponent implements OnInit {
         expenses: this.allExpenses[account.id]
       };
     });
+  }
+
+  generateMonthlyReport(accountId: number): void {
+    const expenses = this.allExpenses[accountId];
+    if (expenses.length > 0) {
+      const lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+      const filteredExpenses = expenses.filter(expense => new Date(expense.date).getMonth() === lastMonth.getMonth());
+
+      if (filteredExpenses.length > 0) {
+        const totalExpenses = filteredExpenses.reduce((sum: number, expense: any) => sum + expense.amount, 0);
+        const numberOfExpenses = filteredExpenses.length;
+
+        const report = {
+          accountId: accountId,
+          month: lastMonth.toISOString(),
+          totalExpenses: totalExpenses,
+          numberOfExpenses: numberOfExpenses
+        };
+
+        this.reportService.createReport(report).subscribe(() => {
+          console.log('Monthly report created successfully for account ', accountId);
+        }, error => {
+          console.error('Error creating monthly report: ', error);
+        });
+      }
+    }
   }
 
   openAddAccountModal(): void {

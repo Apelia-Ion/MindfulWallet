@@ -16,6 +16,7 @@ namespace MindfulWalletAPI.Context
         public DbSet<Finance> Finances { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,6 +56,12 @@ namespace MindfulWalletAPI.Context
                 .HasMany(a => a.Expenses)
                 .WithOne(e => e.Account)
                 .HasForeignKey(e => e.AccountId);
+
+            //relatie 1-N intre account si report
+            modelBuilder.Entity<Account>()
+                .HasMany(a => a.Reports)
+                .WithOne(r => r.Account)
+                .HasForeignKey(r => r.AccountId);
         }
     }
 }
