@@ -19,7 +19,6 @@ export class ExpensesComponent implements OnInit {
   public showAddExpenseModal: boolean = false;
 
   public accounts: any[] = [];
-  public expenses: any[] = [];
   public totalAmount: number = 0;
   public cashExpenses: any[] = [];
   public cardExpenses: any[] = [];
@@ -58,15 +57,26 @@ export class ExpensesComponent implements OnInit {
         if (finance.accounts && Array.isArray(finance.accounts.$values)) {
           this.accounts = finance.accounts.$values;
           this.totalAmount = finance.totalAmount;
+
+          // Load the last three expenses for each account
+          this.accounts.forEach(account => {
+            this.financeService.getLastThreeExpenses(account.id).subscribe(expenses => {
+              if (expenses && Array.isArray(expenses.$values)) {
+                account.expenses = expenses.$values; // Store last three expenses in the account object
+                this.updateExpenses(account); // Update separate arrays
+              } else {
+                console.error('Expenses is not an array:', expenses);
+              }
+            }, error => {
+              console.error('Error fetching last three expenses:', error);
+            });
+          });
         } else {
           console.error('Accounts is not an array:', finance.accounts);
         }
-
-        this.updateExpenses();
       });
     });
   }
-  
 
   addAccount(): void {
     this.authService.getUserId().subscribe((userId: number) => {
@@ -113,30 +123,17 @@ export class ExpensesComponent implements OnInit {
     });
   }
 
-  updateExpenses(): void {
-    this.cashExpenses = [];
-    this.cardExpenses = [];
-    this.savingsExpenses = [];
-
-    if (Array.isArray(this.accounts)) {
-      this.accounts.forEach(account => {
-        if (account.expenses && Array.isArray(account.expenses.$values)) {
-          account.expenses = account.expenses.$values;
-          switch (account.type.toLowerCase()) {
-            case 'cash':
-              this.cashExpenses.push(...account.expenses);
-              break;
-            case 'card':
-              this.cardExpenses.push(...account.expenses);
-              break;
-            case 'economii':
-              this.savingsExpenses.push(...account.expenses);
-              break;
-          }
-        }
-      });
-    } else {
-      console.error('Accounts is not an array:', this.accounts);
+  updateExpenses(account: any): void {
+    switch (account.type.toLowerCase()) {
+      case 'cash':
+        this.cashExpenses = account.expenses;
+        break;
+      case 'card':
+        this.cardExpenses = account.expenses;
+        break;
+      case 'economii':
+        this.savingsExpenses = account.expenses;
+        break;
     }
   }
 

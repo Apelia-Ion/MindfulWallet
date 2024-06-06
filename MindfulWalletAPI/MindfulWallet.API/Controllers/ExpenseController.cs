@@ -66,7 +66,7 @@ namespace MindfulWallet.API.Controllers
             var result = await _expenseService.DeleteExpenseAsync(expenseId);
             if (result)
             {
-                await _accountService.UpdateAccountBalance(expense.AccountId, expense.Amount); // Adaugă suma cheltuielii înapoi în cont
+                //await _accountService.UpdateAccountBalance(expense.AccountId, expense.Amount); // Adaugă suma cheltuielii înapoi în cont
                 return NoContent();
             }
 
