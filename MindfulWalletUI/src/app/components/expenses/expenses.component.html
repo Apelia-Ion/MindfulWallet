@@ -12,7 +12,11 @@
   <div class="accounts-grid">
     <div class="account-card" *ngFor="let account of accounts">
       <h2>{{ account.type }}</h2>
-      <p>Suma Disponibilă: {{ account.balance }} lei</p>
+      <p>Suma Disponibilă: {{ account.balance }} lei
+        <button class="add-funds-button" (click)="openAddFundsModal(account.id)">
+          <img src="assets/add-button.png" alt="Adaugă Bani" class="add-icon">
+        </button>
+      </p>
       <p class="cheltuieli-recente">Cheltuieli Recente:
         <button class="add-expense-button" (click)="openAddExpenseModal(account.id)">
           <img src="assets/add-button.png" alt="Adaugă Cheltuială" class="add-icon">
@@ -77,6 +81,21 @@
       <input formControlName="date" id="date" type="date" required>
       
       <button type="submit">Adaugă Cheltuială</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- Add Funds Modal -->
+<div class="modal" [ngClass]="{'show-modal': showAddFundsModal}">
+  <div class="modal-content">
+    <h4>Adaugă Bani în Cont:</h4>
+    <span class="close-button" (click)="closeAddFundsModal()">&times;</span>
+    <form [formGroup]="fundsForm" (ngSubmit)="addFunds(currentAccountId!)">
+      <label for="amount">Suma</label>
+      <input formControlName="amount" id="amount" type="number" placeholder="Suma" required>
+      
+      <button type="submit">Adaugă Bani</button>
     </form>
   </div>
 </div>

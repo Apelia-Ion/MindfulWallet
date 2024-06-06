@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MindfulWallet.Core.Entities;
 using MindfulWallet.Aplication.Interfaces.Service;
 using MindfulWallet.Core.DTOs;
+using MindfulWallet.Core.DTOs.MindfulWallet.Core.DTOs;
+using MindfulWallet.Core.Entities;
 using System.Threading.Tasks;
 
 namespace MindfulWalletAPI.Controllers
@@ -64,6 +65,18 @@ namespace MindfulWalletAPI.Controllers
                 return NotFound(new { Message = "Account not found" });
             }
             return NoContent();
+        }
+
+        // Endpoint pentru adăugarea banilor într-un cont
+        [HttpPost("addFunds")]
+        public async Task<IActionResult> AddFunds([FromBody] AddFundsDto addFundsDto)
+        {
+            var result = await _accountService.AddFundsAsync(addFundsDto.AccountId, addFundsDto.Amount);
+            if (!result)
+            {
+                return BadRequest(new { Message = "Failed to add funds" });
+            }
+            return Ok(new { Message = "Funds added successfully" });
         }
     }
 }

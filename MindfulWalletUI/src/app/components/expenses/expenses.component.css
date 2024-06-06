@@ -168,6 +168,21 @@ button[type="submit"]:hover {
   object-fit: cover; /* Ensure image fits the dimensions */
 }
 
+.add-funds-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.add-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+}
+
 .expense-reports {
   display: flex;
   flex-wrap: wrap;

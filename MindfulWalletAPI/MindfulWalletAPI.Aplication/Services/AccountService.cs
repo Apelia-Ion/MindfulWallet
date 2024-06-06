@@ -36,14 +36,14 @@ namespace MindfulWallet.Application.Services
             return await _accountRepository.DeleteAccountAsync(accountId);
         }
 
-        public async Task UpdateAccountBalance(int accountId, decimal amountChange)
+        public async Task<bool> AddFundsAsync(int accountId, decimal amount)
         {
             var account = await _accountRepository.GetAccountByIdAsync(accountId);
-            if (account != null)
-            {
-                account.Amount += amountChange;
-                await _accountRepository.UpdateAsync(account);
-            }
+            if (account == null) return false;
+
+            account.Amount += amount;
+            await _accountRepository.UpdateAsync(account);
+            return true;
         }
     }
 }

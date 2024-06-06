@@ -12,20 +12,24 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.css']
 })
+
 export class ExpensesComponent implements OnInit {
   public accountForm: FormGroup;
   public expenseForm: FormGroup;
+  public fundsForm: FormGroup;
   public showAddAccountModal: boolean = false;
   public showAddExpenseModal: boolean = false;
+  public showAddFundsModal: boolean = false;
 
   public accounts: any[] = [];
   public totalAmount: number = 0;
-  public cashExpenses: any[] = [];
-  public cardExpenses: any[] = [];
-  public savingsExpenses: any[] = [];
   public currentAccountId: number | null = null;
   public finance: any;
   public expenseReports: any[] = [];
+
+  public cashExpenses: any[] = [];
+  public cardExpenses: any[] = [];
+  public savingsExpenses: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -41,6 +45,10 @@ export class ExpensesComponent implements OnInit {
       description: [''],
       amount: [''],
       date: [new Date().toISOString().split('T')[0]] // Set default date to today
+    });
+
+    this.fundsForm = this.fb.group({
+      amount: ['']
     });
   }
 
@@ -120,6 +128,24 @@ export class ExpensesComponent implements OnInit {
     });
   }
 
+  addFunds(accountId: number | null): void {
+    if (accountId === null) {
+      console.error('Account ID is null');
+      return;
+    }
+    const fundsDto = {
+      accountId: accountId,
+      amount: parseFloat(this.fundsForm.value.amount)  // Ensure the amount is a number
+    };
+    this.financeService.addFunds(fundsDto).subscribe(() => {
+      this.loadFinance();
+      this.fundsForm.reset();
+      this.closeAddFundsModal();
+    }, error => {
+      console.error('Error adding funds:', error);
+    });
+  }
+
   deleteExpense(accountId: number, expenseId: number): void {
     this.financeService.deleteExpense(expenseId).subscribe(() => {
       this.loadFinance();
@@ -170,6 +196,16 @@ export class ExpensesComponent implements OnInit {
 
   closeAddExpenseModal(): void {
     this.showAddExpenseModal = false;
+    this.currentAccountId = null;
+  }
+
+  openAddFundsModal(accountId: number): void {
+    this.currentAccountId = accountId;
+    this.showAddFundsModal = true;
+  }
+
+  closeAddFundsModal(): void {
+    this.showAddFundsModal = false;
     this.currentAccountId = null;
   }
 }
