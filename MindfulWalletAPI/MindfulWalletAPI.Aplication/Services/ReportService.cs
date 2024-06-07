@@ -34,5 +34,25 @@ namespace MindfulWallet.Aplication.Services
         {
             return await _reportRepository.DeleteReportAsync(reportId);
         }
+
+        public async Task<Report> GetCurrentMonthReportAsync(int accountId)
+        {
+            return await _reportRepository.GetCurrentMonthReportAsync(accountId);
+        }
+
+        public async Task AddOrUpdateReportAsync(Report report)
+        {
+            var existingReport = await _reportRepository.GetReportAsync(report.AccountId, report.Month);
+            if (existingReport != null)
+            {
+                existingReport.TotalExpenses = report.TotalExpenses;
+                existingReport.NumberOfExpenses = report.NumberOfExpenses;
+                await _reportRepository.UpdateReportAsync(existingReport);
+            }
+            else
+            {
+                await _reportRepository.AddReportAsync(report);
+            }
+        }
     }
 }

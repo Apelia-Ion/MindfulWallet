@@ -51,6 +51,17 @@ namespace MindfulWalletAPI.Controllers
             return Ok(expenses);
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetAccountsByUserId(int userId)
+        {
+            var accounts = await _accountService.GetAccountsByUserIdAsync(userId);
+            if (accounts == null || !accounts.Any())
+            {
+                return NotFound(new { Message = "No accounts found for the given user." });
+            }
+            return Ok(accounts);
+        }
+
 
         // Endpoint pentru adăugarea unui cont
         [HttpPost("{userId}")]

@@ -10,6 +10,8 @@ namespace MindfulWallet.Aplication.Interfaces.Repository
     public interface IAccountRepository
     {
         Task<Account> GetAccountByIdAsync(int accountId);
+
+        Task<IEnumerable<Account>> GetAccountsByUserIdAsync(int userId);
         Task<Account> AddAccountAsync(Account account);
         Task<bool> DeleteAccountAsync(int accountId);
         Task UpdateAsync(Account account);

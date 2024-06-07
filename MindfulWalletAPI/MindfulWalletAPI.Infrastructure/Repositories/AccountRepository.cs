@@ -26,6 +26,15 @@ namespace MindfulWallet.Infrastructure.Repositories
                 .FirstOrDefaultAsync(a => a.Id == accountId);
         }
 
+        public async Task<IEnumerable<Account>> GetAccountsByUserIdAsync(int userId)
+        {
+            return await _context.Accounts
+                .Include(a => a.Finance)
+                .Where(a => a.Finance.UserId == userId)
+                .ToListAsync();
+        }
+
+
         public async Task<Account> AddAccountAsync(Account account)
         {
             _context.Accounts.Add(account);

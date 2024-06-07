@@ -21,6 +21,11 @@ namespace MindfulWallet.Application.Services
             return await _accountRepository.GetAccountByIdAsync(accountId);
         }
 
+        public async Task<IEnumerable<Account>> GetAccountsByUserIdAsync(int userId)
+        {
+            return await _accountRepository.GetAccountsByUserIdAsync(userId);
+        }
+
         public async Task<Account> AddAccountAsync(int userId, Account account)
         {
             var finance = await _financeRepository.GetFinanceByUserIdAsync(userId);

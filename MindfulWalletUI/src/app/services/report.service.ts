@@ -10,6 +10,8 @@ export class ReportService {
 
   constructor(private http: HttpClient) {}
 
+
+
   getReportsByAccount(accountId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/Report/account/${accountId}`);
   }
@@ -20,5 +22,13 @@ export class ReportService {
 
   deleteReport(reportId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/Report/${reportId}`);
+  }
+
+  getCurrentMonthReport(accountId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Report/current/${accountId}`);
+  }
+
+  createOrUpdateReport(report: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Report`, report);
   }
 }

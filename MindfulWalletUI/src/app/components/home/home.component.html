@@ -19,7 +19,11 @@
     <div class="section rapoarte">
       <h2>Rapoarte</h2>
       <p>Vizualizează rapoartele detaliate ale cheltuielilor tale.</p>
-      <!-- Includeți aici rapoartele financiare -->
+      <div *ngFor="let report of currentMonthReports">
+        <h3>Raportul lunii curente pentru contul {{ report.accountId }}</h3>
+        <p>Total Cheltuieli: {{ report.totalExpenses }}</p>
+        <p>Număr de Cheltuieli: {{ report.numberOfExpenses }}</p>
+      </div>
     </div>
     
     <div class="section realizari">

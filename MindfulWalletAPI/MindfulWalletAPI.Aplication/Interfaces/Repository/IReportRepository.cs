@@ -13,5 +13,12 @@ namespace MindfulWallet.Aplication.Interfaces.Repository
         Task<IEnumerable<Report>> GetReportsByAccountIdAsync(int accountId);
         Task<Report> AddReportAsync(Report report);
         Task<bool> DeleteReportAsync(int reportId);
-    }
+        Task<Report> GetCurrentMonthReportAsync(int accountId);
+
+        Task<bool> ReportExistsAsync(int accountId, DateTime month);
+
+        Task<Report> GetReportAsync(int accountId, DateTime month);
+
+        Task UpdateReportAsync(Report report);
+    }  
 }

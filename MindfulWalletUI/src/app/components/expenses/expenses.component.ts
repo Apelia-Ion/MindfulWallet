@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { FinanceService } from '../../services/finance.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
-import { ReportService } from '../../services/report.service'; // Importăm serviciul de rapoarte
+import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-expenses',
@@ -31,7 +31,7 @@ export class ExpensesComponent implements OnInit {
   public cardExpenses: any[] = [];
   public savingsExpenses: any[] = [];
 
-  public allExpenses: { [key: number]: any[] } = {};  // Cheltuieli pentru fiecare cont, cheile sunt ID-urile conturilor
+  public allExpenses: { [key: number]: any[] } = {}; // Cheltuieli pentru fiecare cont, cheile sunt ID-urile conturilor
 
   constructor(
     private fb: FormBuilder,
@@ -85,22 +85,18 @@ export class ExpensesComponent implements OnInit {
     this.financeService.getAllExpenses(account.id).subscribe(expenses => {
       if (expenses && Array.isArray(expenses.$values)) {
         this.allExpenses[account.id] = expenses.$values; // Store all expenses separately
-        console.log("id cont curent", account.id);
         account.expenses = expenses.$values.slice(0, 3); // Store last three expenses in the account object
-        console.log("ultimele 3: ", account.expenses);
-        console.log("Toate cheltuielile ", this.allExpenses[account.id]);
-        this.updateExpenses(account); // Update separate arrays
-        this.generateMonthlyReport(account.id); // Generate and save report
+        this.generateMonthlyReports(account.id); // Generate and save reports for each month with expenses
       } else {
         account.expenses = []; // Initialize as empty array if not an array
         this.allExpenses[account.id] = [];
-        this.updateExpenses(account); // Update separate arrays
       }
+      this.updateExpenses(account); // Update expense arrays
     }, error => {
       console.error('Error fetching all expenses:', error);
       account.expenses = []; // Initialize as empty array on error
       this.allExpenses[account.id] = [];
-      this.updateExpenses(account); // Update separate arrays
+      this.updateExpenses(account); // Update expense arrays
     });
   }
 
@@ -130,7 +126,7 @@ export class ExpensesComponent implements OnInit {
     }
     const expenseDto = {
       accountId: accountId,
-      amount: parseFloat(this.expenseForm.value.amount),  // Ensure the amount is a number
+      amount: parseFloat(this.expenseForm.value.amount), // Ensure the amount is a number
       date: this.expenseForm.value.date,
       description: this.expenseForm.value.description
     };
@@ -150,7 +146,7 @@ export class ExpensesComponent implements OnInit {
     }
     const fundsDto = {
       accountId: accountId,
-      amount: parseFloat(this.fundsForm.value.amount)  // Ensure the amount is a number
+      amount: parseFloat(this.fundsForm.value.amount) // Ensure the amount is a number
     };
     this.financeService.addFunds(fundsDto).subscribe(() => {
       this.loadFinance();
@@ -195,32 +191,39 @@ export class ExpensesComponent implements OnInit {
     });
   }
 
-  generateMonthlyReport(accountId: number): void {
+  generateMonthlyReports(accountId: number): void {
     const expenses = this.allExpenses[accountId];
-    if (expenses.length > 0) {
-      const lastMonth = new Date();
-      lastMonth.setMonth(lastMonth.getMonth() - 1);
-      const filteredExpenses = expenses.filter(expense => new Date(expense.date).getMonth() === lastMonth.getMonth());
-
-      if (filteredExpenses.length > 0) {
-        const totalExpenses = filteredExpenses.reduce((sum: number, expense: any) => sum + expense.amount, 0);
-        const numberOfExpenses = filteredExpenses.length;
-
-        const report = {
-          accountId: accountId,
-          month: lastMonth.toISOString(),
-          totalExpenses: totalExpenses,
-          numberOfExpenses: numberOfExpenses
-        };
-
-        this.reportService.createReport(report).subscribe(() => {
-          console.log('Monthly report created successfully for account ', accountId);
-        }, error => {
-          console.error('Error creating monthly report: ', error);
-        });
+    const monthlyExpenses: { [key: string]: any[] } = {};
+  
+    expenses.forEach(expense => {
+      const month = new Date(expense.date).toISOString().substring(0, 7); // Get month in format 'YYYY-MM'
+      if (!monthlyExpenses[month]) {
+        monthlyExpenses[month] = [];
       }
-    }
+      monthlyExpenses[month].push(expense);
+    });
+  
+    Object.keys(monthlyExpenses).forEach(month => {
+      const filteredExpenses = monthlyExpenses[month];
+      const totalExpenses = filteredExpenses.reduce((sum: number, expense: any) => sum + expense.amount, 0);
+      const numberOfExpenses = filteredExpenses.length;
+  
+      const report = {
+        accountId: accountId,
+        month: month + "-01T00:00:00Z", // Ensure the month is in 'YYYY-MM-DDTHH:mm:ssZ' format
+        totalExpenses: totalExpenses,
+        numberOfExpenses: numberOfExpenses
+      };
+  
+      this.reportService.createOrUpdateReport(report).subscribe(() => {
+        console.log(`Monthly report for ${month} created or updated successfully for account ${accountId}`);
+      }, error => {
+        console.error('Error creating or updating monthly report: ', error);
+      });
+    });
   }
+  
+  
 
   openAddAccountModal(): void {
     this.showAddAccountModal = true;

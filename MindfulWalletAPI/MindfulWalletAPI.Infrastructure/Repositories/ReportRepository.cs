@@ -2,6 +2,7 @@
 using MindfulWallet.Core.Entities;
 using MindfulWalletAPI.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,6 +50,32 @@ namespace MindfulWallet.Infrastructure.Repositories
             _context.Reports.Remove(report);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<Report> GetCurrentMonthReportAsync(int accountId)
+        {
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+            return await _context.Reports
+                .FirstOrDefaultAsync(r => r.AccountId == accountId && r.Month.Month == currentMonth && r.Month.Year == currentYear);
+        }
+
+        public async Task<bool> ReportExistsAsync(int accountId, DateTime month)
+        {
+            return await _context.Reports
+                .AnyAsync(r => r.AccountId == accountId && r.Month == month);
+        }
+
+        public async Task<Report> GetReportAsync(int accountId, DateTime month)
+        {
+            return await _context.Reports
+                .FirstOrDefaultAsync(r => r.AccountId == accountId && r.Month == month);
+        }
+
+        public async Task UpdateReportAsync(Report report)
+        {
+            _context.Reports.Update(report);
+            await _context.SaveChangesAsync();
         }
     }
 }
