@@ -72,6 +72,9 @@ export class ExpensesComponent implements OnInit {
     this.loadFinance();
   }
 
+
+  //////loading data//////
+
   loadFinance(): void {
     this.authService.getUserId().subscribe((userId: number) => {
       this.financeService.getFinance(userId).subscribe(finance => {
@@ -129,6 +132,9 @@ export class ExpensesComponent implements OnInit {
     });
   }
 
+
+  ///// Acount ///////
+
   addAccount(): void {
     this.authService.getUserId().subscribe((userId: number) => {
       const account = this.accountForm.value;
@@ -147,6 +153,28 @@ export class ExpensesComponent implements OnInit {
       this.loadFinance();
     });
   }
+
+  addFunds(accountId: number | null): void {
+    if (accountId === null) {
+      console.error('Account ID is null');
+      return;
+    }
+    const fundsDto = {
+      accountId: accountId,
+      amount: parseFloat(this.fundsForm.value.amount) // Ensure the amount is a number
+    };
+    this.financeService.addFunds(fundsDto).subscribe(() => {
+      this.loadFinance();
+      this.fundsForm.reset();
+      this.closeAddFundsModal();
+    }, error => {
+      console.error('Error adding funds:', error);
+    });
+  }
+
+
+
+  /////Expense///////
 
   addExpense(accountId: number | null): void {
     if (accountId === null) {
@@ -169,23 +197,6 @@ export class ExpensesComponent implements OnInit {
     });
   }
 
-  addFunds(accountId: number | null): void {
-    if (accountId === null) {
-      console.error('Account ID is null');
-      return;
-    }
-    const fundsDto = {
-      accountId: accountId,
-      amount: parseFloat(this.fundsForm.value.amount) // Ensure the amount is a number
-    };
-    this.financeService.addFunds(fundsDto).subscribe(() => {
-      this.loadFinance();
-      this.fundsForm.reset();
-      this.closeAddFundsModal();
-    }, error => {
-      console.error('Error adding funds:', error);
-    });
-  }
 
   deleteExpense(accountId: number, expenseId: number): void {
     this.financeService.deleteExpense(expenseId).subscribe(() => {
@@ -217,21 +228,12 @@ export class ExpensesComponent implements OnInit {
         this.savingsExpenses = account.expenses;
         break;
     }
-    this.generateExpenseReports(); // Generate expense reports
   }
 
-  generateExpenseReports(): void {
-    this.expenseReports = this.accounts.filter(account => this.allExpenses[account.id] && this.allExpenses[account.id].length > 0).map(account => {
-      const totalExpenses = this.allExpenses[account.id].reduce((sum: number, expense: any) => sum + expense.amount, 0);
-      const numberOfExpenses = this.allExpenses[account.id].length;
-      return {
-        accountType: account.type,
-        totalExpenses,
-        numberOfExpenses,
-        expenses: this.allExpenses[account.id]
-      };
-    });
-  }
+
+  /////  Reports  /////
+
+
 
   generateMonthlyReports(accountId: number): void {
     const expenses = this.allExpenses[accountId];
@@ -265,6 +267,10 @@ export class ExpensesComponent implements OnInit {
     });
   }
 
+
+
+  /// modale /////
+
   openAddAccountModal(): void {
     this.showAddAccountModal = true;
   }
@@ -294,6 +300,9 @@ export class ExpensesComponent implements OnInit {
     this.currentAccountId = null;
   }
 
+
+  /// Navigare ////
+
   showPreviousReport(accountId: number): void {
     if (this.currentMonthIndex[accountId] > 0) {
       this.currentMonthIndex[accountId]--;
@@ -306,17 +315,8 @@ export class ExpensesComponent implements OnInit {
     }
   }
 
-  showPreviousAccount(): void {
-    if (this.currentAccountIndex > 0) {
-      this.currentAccountIndex--;
-    }
-  }
 
-  showNextAccount(): void {
-    if (this.currentAccountIndex < this.accounts.length - 1) {
-      this.currentAccountIndex++;
-    }
-  }
+  //// Alte detalii /////
 
   formatMonth(month: string): string {
     const date = new Date(month);
