@@ -4,7 +4,8 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserStoreService } from '../../services/user-store.service';
 import { ReportService } from '../../services/report.service';
-import { forkJoin, map } from 'rxjs';
+import { forkJoin, map, catchError, of } from 'rxjs';
+import { GoalService } from '../../services/goal.service';
 
 @Component({
   selector: 'app-home',
@@ -22,21 +23,30 @@ export class HomeComponent implements OnInit {
   public currentMonthReports: any[] = [];
   public currentAccountIndex: number = 0;
 
+  longTermGoals: string[] = [];
+  personalizedAdvice: string[] = [];
+
   constructor(
     private api: HomeService, 
     private authentication: AuthService, 
     private userStore: UserStoreService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private goalService: GoalService
   ) {}
 
   ngOnInit(): void {
     this.userStore.getFullNameFromStore().subscribe(val => {
       let fullNameFromToken = this.authentication.getFullNameFromToken();
       this.userName = val || fullNameFromToken;
+    }, error => {
+      console.error('Error fetching full name from store:', error);
     });
+    
     this.userStore.getRoleFromStore().subscribe(val => {
       let role = this.authentication.getRoleFromToken();
       this.userRole = val || role;
+    }, error => {
+      console.error('Error fetching role from store:', error);
     });
 
     this.authentication.getUserId().subscribe(userId => {
@@ -49,7 +59,11 @@ export class HomeComponent implements OnInit {
           
           const reportRequests = this.accounts.map((account: any) => 
             this.reportService.getCurrentMonthReport(account.id).pipe(
-              map(report => ({ ...report, accountType: account.type }))
+              map(report => ({ ...report, accountType: account.type })),
+              catchError(error => {
+                console.error('Error fetching report for account:', account.id, error);
+                return of(null);
+              })
             )
           );
 
@@ -65,13 +79,24 @@ export class HomeComponent implements OnInit {
       }, error => {
         console.error('Error fetching user accounts:', error);
       });
+    }, error => {
+      console.error('Error fetching user ID:', error);
+    });
+
+    this.goalService.longTermGoals$.subscribe(goals => {
+      this.longTermGoals = goals;
+      this.generateAdvice();
+    }, error => {
+      console.error('Error fetching long term goals:', error);
     });
   }
 
   toggleUsers(): void {
     this.showUsers = !this.showUsers;
     if (this.showUsers) {
-      this.api.getUsers().subscribe(res => this.users = res);
+      this.api.getUsers().subscribe(res => this.users = res, error => {
+        console.error('Error fetching users:', error);
+      });
     }
   }
 
@@ -85,5 +110,18 @@ export class HomeComponent implements OnInit {
     if (this.currentAccountIndex > 0) {
       this.currentAccountIndex--;
     }
+  }
+
+  generateAdvice(): void {
+    const adviceList: { [key: string]: string } = {
+      'Economii pe termen lung': 'Stabilește un buget lunar și încearcă să economisești cel puțin 10% din venitul tău.',
+      'Reducerea cheltuielilor': 'Fă o listă de priorități și evită cheltuielile impulsive. Încearcă să cumperi doar ce este necesar.',
+      'Investiții pe termen lung': 'Caută oportunități de investiții și educă-te în domeniul financiar pentru a lua decizii informate.',
+      'Planificarea pentru pensionare': 'Planifică-ți pensionarea economisind și investind în mod regulat.',
+      'Plata datoriilor': 'Prioritizează plata datoriilor cu cele mai mari dobânzi și încearcă să faci plăți suplimentare.',
+      'Asigurarea viitorului copiilor': 'Deschide un cont de economii pentru educația copiilor și contribuie periodic.'
+    };
+
+    this.personalizedAdvice = this.longTermGoals.map(goal => adviceList[goal]);
   }
 }

@@ -1,9 +1,59 @@
-<!DOCTYPE html>
-<html>
-<body>
+<div class="container">
+  <h1>Setează și atinge-ți obiectivele!</h1>
+  <div class="goals-wrapper">
+    <div class="long-term-goals">
+      <h2>Ce îmi doresc pe termen lung...</h2>
+      <button class="change-button" (click)="openLongTermModal()">Schimba</button>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
+      <ul>
+        <li *ngFor="let goal of longTermGoals">{{ goal }}</li>
+      </ul>
+    </div>
+    <div class="specific-goals">
+      <h2>De economisit</h2>
+      <button class="add-button" (click)="openSpecificGoalModal()">
+        <img src="assets/add-button.png" alt="Adaugă Obiectiv" class="add-icon">
+      </button>
+      <ul>
+        <li *ngFor="let goal of specificGoals">
+          <strong>{{ goal.title }}</strong> - {{ goal.date | date }}<br>
+          {{ goal.description }}<br>
+          <em>{{ goal.motivation }}</em>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-</body>
-</html>
+  <!-- Modal pentru obiectivele pe termen lung -->
+  <div [ngClass]="{'modal': true, 'show': isLongTermModalOpen}">
+    <div class="modal-content">
+      <span class="close" (click)="closeLongTermModal()">&times;</span>
+      <h3>Alege obiectivele pe termen lung</h3>
+      <form>
+        <label *ngFor="let option of longTermOptions">
+          <input type="checkbox" [value]="option" (change)="toggleLongTermGoal(option)" [checked]="longTermGoals.includes(option)"> {{ option }}
+        </label>
+        <button type="button" class="save-button" (click)="saveLongTermGoals()">Salvează</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal pentru obiectivele specifice -->
+  <div [ngClass]="{'modal': true, 'show': isSpecificGoalModalOpen}">
+    <div class="modal-content">
+      <span class="close" (click)="closeSpecificGoalModal()">&times;</span>
+      <h3>Adaugă un obiectiv specific</h3>
+      <form (ngSubmit)="saveSpecificGoal()">
+        <label for="title">Titlu:</label>
+        <input type="text" id="title" [(ngModel)]="newGoal.title" name="title" required><br>
+        <label for="description">Descriere:</label>
+        <textarea id="description" [(ngModel)]="newGoal.description" name="description"></textarea><br>
+        <label for="motivation">Motivație:</label>
+        <textarea id="motivation" [(ngModel)]="newGoal.motivation" name="motivation"></textarea><br>
+        <label for="date">Dată:</label>
+        <input type="date" id="date" [(ngModel)]="newGoal.date" name="date" required><br>
+        <button type="submit" class="save-button">Salvează</button>
+      </form>
+    </div>
+  </div>
+</div>

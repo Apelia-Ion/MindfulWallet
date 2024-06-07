@@ -9,7 +9,9 @@
   <div class="sections">
     <div class="section sfaturi">
       <h2>Sfaturi</h2>
-      <p>Personalizează sfaturile bazate pe comportamentul tău financiar.</p>
+      <ul>
+        <li *ngFor="let advice of personalizedAdvice">{{ advice }}</li>
+      </ul>
     </div>
     
     <div class="section goals">
