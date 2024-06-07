@@ -6,6 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { ReportService } from '../../services/report.service';
 
+interface Report {
+  month: string;
+  totalExpenses: number;
+  numberOfExpenses: number;
+  expenses: { description: string, amount: number }[];
+}
+
 @Component({
   selector: 'app-expenses',
   standalone: true,
@@ -17,6 +24,7 @@ export class ExpensesComponent implements OnInit {
   public accountForm: FormGroup;
   public expenseForm: FormGroup;
   public fundsForm: FormGroup;
+
   public showAddAccountModal: boolean = false;
   public showAddExpenseModal: boolean = false;
   public showAddFundsModal: boolean = false;
@@ -25,13 +33,18 @@ export class ExpensesComponent implements OnInit {
   public totalAmount: number = 0;
   public currentAccountId: number | null = null;
   public finance: any;
-  public expenseReports: any[] = [];
 
+  public expenseReports: any[] = [];
   public cashExpenses: any[] = [];
   public cardExpenses: any[] = [];
   public savingsExpenses: any[] = [];
 
   public allExpenses: { [key: number]: any[] } = {}; // Cheltuieli pentru fiecare cont, cheile sunt ID-urile conturilor
+
+  public expenseReportsFromDb: { [key: number]: Report[] } = {};
+  public currentMonthIndex: { [key: number]: number } = {};
+  public currentAccountIndex: number = 0;
+
 
   constructor(
     private fb: FormBuilder,
@@ -73,6 +86,7 @@ export class ExpensesComponent implements OnInit {
           // Load all expenses for each account
           this.accounts.forEach(account => {
             this.loadExpenses(account);
+            this.loadReports(account.id); // Load reports for each account
           });
         } else {
           console.error('Accounts is not an array:', finance.accounts);
@@ -97,6 +111,21 @@ export class ExpensesComponent implements OnInit {
       account.expenses = []; // Initialize as empty array on error
       this.allExpenses[account.id] = [];
       this.updateExpenses(account); // Update expense arrays
+    });
+  }
+
+  loadReports(accountId: number): void {
+    this.reportService.getReportsByAccount(accountId).subscribe(reports => {
+      if (reports.$values && Array.isArray(reports.$values)) {
+        this.expenseReportsFromDb[accountId] = reports.$values.sort((a: Report, b: Report) => new Date(a.month).getTime() - new Date(b.month).getTime());
+        this.currentMonthIndex[accountId] = this.expenseReportsFromDb[accountId].length - 1; // Set the index to the last report
+      } else {
+        this.expenseReportsFromDb[accountId] = [];
+      }
+      console.log('Reports for account', accountId, ':', this.expenseReportsFromDb[accountId]);
+    }, error => {
+      console.error('Error fetching reports:', error);
+      this.expenseReportsFromDb[accountId] = [];
     });
   }
 
@@ -223,8 +252,6 @@ export class ExpensesComponent implements OnInit {
     });
   }
   
-  
-
   openAddAccountModal(): void {
     this.showAddAccountModal = true;
   }
@@ -252,5 +279,35 @@ export class ExpensesComponent implements OnInit {
   closeAddFundsModal(): void {
     this.showAddFundsModal = false;
     this.currentAccountId = null;
+  }
+
+  showPreviousReport(accountId: number): void {
+    if (this.currentMonthIndex[accountId] > 0) {
+      this.currentMonthIndex[accountId]--;
+    }
+  }
+
+  showNextReport(accountId: number): void {
+    if (this.currentMonthIndex[accountId] < this.expenseReportsFromDb[accountId].length - 1) {
+      this.currentMonthIndex[accountId]++;
+    }
+  }
+
+  showPreviousAccount(): void {
+    if (this.currentAccountIndex > 0) {
+      this.currentAccountIndex--;
+    }
+  }
+
+  showNextAccount(): void {
+    if (this.currentAccountIndex < this.accounts.length - 1) {
+      this.currentAccountIndex++;
+    }
+  }
+
+  formatMonth(month: string): string {
+    const date = new Date(month);
+    const options: Intl.DateTimeFormatOptions = { month: 'long' };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
   }
 }

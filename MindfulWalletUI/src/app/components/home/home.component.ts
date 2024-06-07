@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserStoreService } from '../../services/user-store.service';
 import { ReportService } from '../../services/report.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -48,7 +48,9 @@ export class HomeComponent implements OnInit {
           console.log('Accounts:', this.accounts);
           
           const reportRequests = this.accounts.map((account: any) => 
-            this.reportService.getCurrentMonthReport(account.id)
+            this.reportService.getCurrentMonthReport(account.id).pipe(
+              map(report => ({ ...report, accountType: account.type }))
+            )
           );
 
           forkJoin(reportRequests).subscribe((reports: any[]) => {

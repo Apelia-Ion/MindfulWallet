@@ -34,15 +34,24 @@
   </div>
 
   <div class="expense-reports">
-    <div *ngFor="let report of expenseReports" class="expense-report-card">
-      <h3>Raport - {{ report.accountType }}</h3>
-      <p>Total Cheltuieli: {{ report.totalExpenses }} lei</p>
-      <p>Număr de Cheltuieli: {{ report.numberOfExpenses }}</p>
-      <ul>
-        <li *ngFor="let expense of report.expenses">
-          {{ expense.description }} - {{ expense.amount }} lei
-        </li>
-      </ul>
+    <div *ngFor="let account of accounts">
+      <div *ngIf="expenseReportsFromDb[account.id] && expenseReportsFromDb[account.id].length > 0" class="expense-report-card">
+        <h3>Raport - {{ account.type }}</h3>
+        <div class="navigation-buttons">
+          <button (click)="showPreviousReport(account.id)" [disabled]="currentMonthIndex[account.id] === 0">Luna Anterioară</button>
+          <button (click)="showNextReport(account.id)" [disabled]="currentMonthIndex[account.id] === expenseReportsFromDb[account.id].length - 1">Luna Următoare</button>
+        </div>
+        <div *ngIf="expenseReportsFromDb[account.id][currentMonthIndex[account.id]]">
+          <p>Luna: {{ formatMonth(expenseReportsFromDb[account.id][currentMonthIndex[account.id]].month) }}</p>
+          <p>Total Cheltuieli: {{ expenseReportsFromDb[account.id][currentMonthIndex[account.id]].totalExpenses }} lei</p>
+          <p>Număr de Cheltuieli: {{ expenseReportsFromDb[account.id][currentMonthIndex[account.id]].numberOfExpenses }}</p>
+          <ul>
+            <li *ngFor="let expense of expenseReportsFromDb[account.id][currentMonthIndex[account.id]].expenses">
+              {{ expense.description }} - {{ expense.amount }} lei
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -83,7 +92,6 @@
     </form>
   </div>
 </div>
-
 
 <!-- Add Funds Modal -->
 <div class="modal" [ngClass]="{'show-modal': showAddFundsModal}">

@@ -143,8 +143,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Aplication\\Services\\AccountService.cs",
               "ViewState": "AQIAABIAAAAAAAAAAADwvyIAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T20:31:01.353Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-06T20:31:01.353Z"
             },
             {
               "$type": "Document",
@@ -156,8 +155,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Infrastructure\\Repositories\\AccountRepository.cs",
               "ViewState": "AQIAAC4AAAAAAAAAAAAIwEAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T20:45:12.493Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-06T20:45:12.493Z"
             },
             {
               "$type": "Document",
@@ -169,8 +167,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Core\\DTOs\\AccountDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-07T10:03:50.679Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-07T10:03:50.679Z"
             },
             {
               "$type": "Document",
@@ -182,8 +179,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Aplication\\Interfaces\\Service\\IAccountService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwA0AAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T20:31:48.758Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-06T20:31:48.758Z"
             },
             {
               "$type": "Document",
@@ -195,8 +191,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Core\\Entities\\Account.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAA5wBYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T19:51:43.466Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-06T19:51:43.466Z"
             },
             {
               "$type": "Document",
@@ -208,8 +203,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Infrastructure\\Repositories\\FinanceRepository.cs",
               "ViewState": "AQIAAA0AAAAAAAAAAADwvx8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T20:45:25.976Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-06T20:45:25.976Z"
             },
             {
               "$type": "Document",
@@ -245,8 +239,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Core\\Entities\\Expense.cs",
               "ViewState": "AQIAAAEAAAAAAAAAAAAiwBIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T20:37:06.237Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-06T20:37:06.237Z"
             },
             {
               "$type": "Document",
@@ -270,8 +263,7 @@
               "RelativeToolTip": "MindfulWalletAPI.Core\\DTOs\\AddFundsDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T20:28:47.839Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-06T20:28:47.839Z"
             },
             {
               "$type": "Document",
