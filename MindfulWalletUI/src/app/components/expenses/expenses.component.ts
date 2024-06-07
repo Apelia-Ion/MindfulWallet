@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { ReportService } from '../../services/report.service';
 
 interface Report {
+  id: number; // Adăugăm proprietatea 'id'
   month: string;
   totalExpenses: number;
   numberOfExpenses: number;
@@ -44,7 +45,6 @@ export class ExpensesComponent implements OnInit {
   public expenseReportsFromDb: { [key: number]: Report[] } = {};
   public currentMonthIndex: { [key: number]: number } = {};
   public currentAccountIndex: number = 0;
-
 
   constructor(
     private fb: FormBuilder,
@@ -163,6 +163,7 @@ export class ExpensesComponent implements OnInit {
       this.loadFinance();
       this.expenseForm.reset({ date: new Date().toISOString().split('T')[0] });
       this.closeAddExpenseModal();
+      window.location.reload();      //reload page
     }, error => {
       console.error('Error adding expense:', error);
     });
@@ -189,6 +190,18 @@ export class ExpensesComponent implements OnInit {
   deleteExpense(accountId: number, expenseId: number): void {
     this.financeService.deleteExpense(expenseId).subscribe(() => {
       this.loadFinance();
+      this.expenseReportsFromDb[accountId].forEach(report => {
+        const reportExpenses = this.allExpenses[accountId].filter(expense => new Date(expense.date).toISOString().substring(0, 7) === report.month);
+        if (reportExpenses.length === 0) {
+          this.reportService.deleteReport(report.id).subscribe(() => {
+            console.log(`Report ${report.id} deleted successfully`);
+            this.loadReports(accountId); // Reîncarcă rapoartele după ștergere
+            window.location.reload();
+          }, error => {
+            console.error('Error deleting report:', error);
+          });
+        }
+      });
     });
   }
 
@@ -223,7 +236,7 @@ export class ExpensesComponent implements OnInit {
   generateMonthlyReports(accountId: number): void {
     const expenses = this.allExpenses[accountId];
     const monthlyExpenses: { [key: string]: any[] } = {};
-  
+
     expenses.forEach(expense => {
       const month = new Date(expense.date).toISOString().substring(0, 7); // Get month in format 'YYYY-MM'
       if (!monthlyExpenses[month]) {
@@ -231,19 +244,19 @@ export class ExpensesComponent implements OnInit {
       }
       monthlyExpenses[month].push(expense);
     });
-  
+
     Object.keys(monthlyExpenses).forEach(month => {
       const filteredExpenses = monthlyExpenses[month];
       const totalExpenses = filteredExpenses.reduce((sum: number, expense: any) => sum + expense.amount, 0);
       const numberOfExpenses = filteredExpenses.length;
-  
+
       const report = {
         accountId: accountId,
         month: month + "-01T00:00:00Z", // Ensure the month is in 'YYYY-MM-DDTHH:mm:ssZ' format
         totalExpenses: totalExpenses,
         numberOfExpenses: numberOfExpenses
       };
-  
+
       this.reportService.createOrUpdateReport(report).subscribe(() => {
         console.log(`Monthly report for ${month} created or updated successfully for account ${accountId}`);
       }, error => {
@@ -251,7 +264,7 @@ export class ExpensesComponent implements OnInit {
       });
     });
   }
-  
+
   openAddAccountModal(): void {
     this.showAddAccountModal = true;
   }
