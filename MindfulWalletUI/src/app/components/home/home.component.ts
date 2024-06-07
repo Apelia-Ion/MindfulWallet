@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   public showUsers: boolean = false;
   public accounts: any[] = [];
   public currentMonthReports: any[] = [];
+  public currentAccountIndex: number = 0;
 
   constructor(
     private api: HomeService, 
@@ -38,18 +39,17 @@ export class HomeComponent implements OnInit {
       this.userRole = val || role;
     });
 
-    // Fetch user accounts and their respective current month reports
     this.authentication.getUserId().subscribe(userId => {
       console.log('User ID:', userId);
       this.api.getUserAccounts(userId).subscribe((response: any) => {
         if (response && response.$values) {
-          // Filtrăm doar obiectele contului valide
-          this.accounts = response.$values.filter((account: any) => account.id !== undefined); 
+          this.accounts = response.$values;
+          console.log('User Accounts Response:', response);
           console.log('Accounts:', this.accounts);
-          const reportRequests = this.accounts.map((account: any) => {
-            const accountId = account.id; // Accesăm corect proprietatea id
-            return this.reportService.getCurrentMonthReport(accountId);
-          });
+          
+          const reportRequests = this.accounts.map((account: any) => 
+            this.reportService.getCurrentMonthReport(account.id)
+          );
 
           forkJoin(reportRequests).subscribe((reports: any[]) => {
             console.log('Reports:', reports);
@@ -70,6 +70,18 @@ export class HomeComponent implements OnInit {
     this.showUsers = !this.showUsers;
     if (this.showUsers) {
       this.api.getUsers().subscribe(res => this.users = res);
+    }
+  }
+
+  showNextReport(): void {
+    if (this.currentAccountIndex < this.currentMonthReports.length - 1) {
+      this.currentAccountIndex++;
+    }
+  }
+
+  showPreviousReport(): void {
+    if (this.currentAccountIndex > 0) {
+      this.currentAccountIndex--;
     }
   }
 }

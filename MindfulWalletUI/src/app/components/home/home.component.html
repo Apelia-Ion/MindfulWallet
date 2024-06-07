@@ -7,29 +7,35 @@
     <div class="section sfaturi">
       <h2>Sfaturi</h2>
       <p>Personalizează sfaturile bazate pe comportamentul tău financiar.</p>
-      <!-- Includeți aici sfaturi personalizate -->
     </div>
     
     <div class="section goals">
       <h2>Goals</h2>
       <p>Setează și monitorizează obiectivele tale financiare.</p>
-      <!-- Includeți aici obiectivele utilizatorului -->
     </div>
     
-    <div class="section rapoarte">
+    <div class="section_raports">
       <h2>Rapoarte</h2>
       <p>Vizualizează rapoartele detaliate ale cheltuielilor tale.</p>
-      <div *ngFor="let report of currentMonthReports">
-        <h3>Raportul lunii curente pentru contul {{ report.accountId }}</h3>
-        <p>Total Cheltuieli: {{ report.totalExpenses }}</p>
-        <p>Număr de Cheltuieli: {{ report.numberOfExpenses }}</p>
+      <div *ngIf="currentMonthReports.length > 0">
+        <div *ngFor="let report of currentMonthReports; let i = index">
+          <div *ngIf="i === currentAccountIndex">
+            <h3>Raportul lunii curente pentru contul {{ report.accountId }}</h3>
+            <p>Total Cheltuieli: {{ report.totalExpenses }}</p>
+            <p>Număr de Cheltuieli: {{ report.numberOfExpenses }}</p>
+          </div>
+        </div>
+        <button (click)="showPreviousReport()" [disabled]="currentAccountIndex === 0">Previous</button>
+        <button (click)="showNextReport()" [disabled]="currentAccountIndex === currentMonthReports.length - 1">Next</button>
+      </div>
+      <div *ngIf="currentMonthReports.length === 0">
+        <p>Nu există rapoarte disponibile.</p>
       </div>
     </div>
     
     <div class="section realizari">
       <h2>Realizări</h2>
       <p>Descoperă și monitorizează realizările tale financiare.</p>
-      <!-- Includeți aici realizările și badge-urile utilizatorului -->
     </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ using MindfulWallet.Aplication.Services;
 using MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.DTOs.MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.Entities;
+using MindfulWallet.Core.Models;
 using System.Threading.Tasks;
 
 namespace MindfulWalletAPI.Controllers
@@ -65,12 +66,12 @@ namespace MindfulWalletAPI.Controllers
 
         // Endpoint pentru adăugarea unui cont
         [HttpPost("{userId}")]
-        public async Task<IActionResult> CreateAccount(int userId, [FromBody] AccountDto accountDto)
+        public async Task<IActionResult> CreateAccount(int userId, [FromBody] AccountModel accountModel)
         {
             var account = new Account
             {
-                Type = accountDto.Type,
-                Amount = accountDto.Amount
+                Type = accountModel.Type,
+                Amount = accountModel.Amount
             };
 
             var createdAccount = await _accountService.AddAccountAsync(userId, account);

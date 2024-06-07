@@ -1,5 +1,6 @@
 ﻿using MindfulWallet.Aplication.Interfaces.Repository;
 using MindfulWallet.Aplication.Interfaces.Service;
+using MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.Entities;
 using System.Threading.Tasks;
 
@@ -21,10 +22,18 @@ namespace MindfulWallet.Application.Services
             return await _accountRepository.GetAccountByIdAsync(accountId);
         }
 
-        public async Task<IEnumerable<Account>> GetAccountsByUserIdAsync(int userId)
+        public async Task<IEnumerable<AccountDto>> GetAccountsByUserIdAsync(int userId)
         {
-            return await _accountRepository.GetAccountsByUserIdAsync(userId);
+            var accounts = await _accountRepository.GetAccountsByUserIdAsync(userId);
+            return accounts.Select(account => new AccountDto
+            {
+                Id = account.Id,
+                FinanceId = account.FinanceId,
+                Type = account.Type,
+                Amount = account.Amount
+            }).ToList();
         }
+
 
         public async Task<Account> AddAccountAsync(int userId, Account account)
         {

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MindfulWallet.Core.DTOs
+namespace MindfulWallet.Core.Models
 {
-    public class AccountDto   // recieved from frontend -> create account
+    public class AccountModel
     {
-        public int Id { get; set; }
-        public int FinanceId { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
+
+        public decimal Balance { get; set; }
     }
 }
+
