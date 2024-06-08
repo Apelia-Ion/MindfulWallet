@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../services/event.service';
 import { Event } from '../../models/event.model';
 import { AuthService } from '../../services/auth.service';
+import { GoalService } from '../../services/goal.service';
+import { GoalModel } from '../../models/goal.model';
 
 @Component({
   selector: 'app-calendar',
@@ -19,6 +21,7 @@ export class CalendarComponent implements OnInit {
   userId!: number;
   showModal = false;
   modalEvents: Event[] = [];
+  specificGoals: GoalModel[] = [];
 
   monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -27,24 +30,27 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private authService: AuthService
+    private authService: AuthService,
+    private goalService: GoalService
   ) {}
 
   ngOnInit(): void {
     const today = new Date();
     this.currentYear = today.getFullYear();
     this.currentMonth = today.getMonth();
-
+  
     this.authService.getUserId().subscribe(
       id => {
         this.userId = id;
         this.loadEvents(this.userId);
+        this.loadSpecificGoals(this.userId); // Mutat aici pentru a te asigura că userId este setat
       },
       error => {
         console.error('Error fetching user ID:', error);
       }
     );
   }
+  
 
   loadEvents(userId: number): void {
     this.eventService.getEvents(userId).subscribe(events => {
@@ -58,27 +64,34 @@ export class CalendarComponent implements OnInit {
     const firstDay = new Date(year, month, 1).getDay();
     const lastDate = new Date(year, month + 1, 0).getDate();
     const calendarDays = [];
-
+  
     // Fill in days before the first day of the month
     for (let i = 0; i < firstDay; i++) {
-      calendarDays.push({ date: null, events: [] });
+      calendarDays.push({ date: null, events: [], goals: [] });
     }
-
+  
     // Fill in the days of the month
     for (let i = 1; i <= lastDate; i++) {
       const dayEvents = this.events.filter(event => {
         const eventDate = new Date(event.date);
         return eventDate.getDate() === i && eventDate.getMonth() === month && eventDate.getFullYear() === year;
       });
-      calendarDays.push({ date: i, events: dayEvents });
+  
+      const dayGoals = this.specificGoals.filter(goal => {
+        const goalDate = new Date(goal.dueDate);
+        return goalDate.getDate() === i && goalDate.getMonth() === month && goalDate.getFullYear() === year;
+      });
+  
+      calendarDays.push({ date: i, events: dayEvents, goals: dayGoals });
     }
-
+  
     // Group the days into weeks
     this.weeks = [];
     while (calendarDays.length > 0) {
       this.weeks.push(calendarDays.splice(0, 7));
     }
   }
+  
 
   prevMonth(): void {
     if (this.currentMonth === 0) {
@@ -108,5 +121,21 @@ export class CalendarComponent implements OnInit {
   closeModal(): void {
     this.showModal = false;
     this.modalEvents = [];
+  }
+
+
+
+  /// aduc si goals in calendar
+
+  loadSpecificGoals(userId: number) {
+    this.goalService.getAllGoals(userId).subscribe(
+      (response: any) => {
+        this.specificGoals = response.$values || []; // Asigură-te că extragi array-ul de obiecte
+        console.log('Loaded specific goals:', this.specificGoals); // Debug: Verifică structura datelor
+      },
+      error => {
+        console.error('Error fetching goals:', error);
+      }
+    );
   }
 }

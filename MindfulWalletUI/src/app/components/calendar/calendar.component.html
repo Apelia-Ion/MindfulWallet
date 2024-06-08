@@ -26,6 +26,9 @@
                 <div *ngFor="let event of date.events" class="event">
                     {{ event.description }} - {{ event.type }}
                 </div>
+                <div *ngFor="let goal of date.goals" class="goal">
+                    {{ goal.title }}
+                </div>
                 <button *ngIf="date.events.length > 1" class="more-button" (click)="openModal(date.events)">More</button>
             </div>
         </div>

@@ -1,10 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { GoalModel } from '../models/goal.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class GoalService {
+
+  private baseUrl: string = 'https://localhost:7245/api/Goal';
+
+  constructor(private http: HttpClient) {}
+  
   private longTermGoalsSubject = new BehaviorSubject<string[]>(this.getLongTermGoalsFromStorage());
   longTermGoals$ = this.longTermGoalsSubject.asObservable();
 
@@ -26,4 +34,20 @@ export class GoalService {
     localStorage.removeItem('longTermGoals');
     this.longTermGoalsSubject.next([]);
   }
+
+
+  addGoal(goal: GoalModel): Observable<GoalModel> {
+    return this.http.post<GoalModel>(`${this.baseUrl}`, goal);
+  }
+
+  deleteGoal(goalId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${goalId}`);
+  }
+
+  getAllGoals(userId: number): Observable<GoalModel[]> {
+    return this.http.get<GoalModel[]>(`${this.baseUrl}/${userId}`);
+  }
+
+
+
 }
