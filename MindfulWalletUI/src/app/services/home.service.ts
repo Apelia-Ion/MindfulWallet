@@ -22,4 +22,8 @@ export class HomeService {
   getCurrentMonthReport(accountId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/Report/current/${accountId}`);
   }
+
+  getUserAchievements(userId: number): Observable<any> {
+    return this.http.get(`https://localhost:7245/api/Account/user/${userId}/achievements`);
+  }
 }

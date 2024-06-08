@@ -17,6 +17,22 @@
     <div class="section_goals">
       <h2><a href="/goals" aria-label="goals">Goals</a></h2>
       <p>Setează și monitorizează obiectivele tale financiare.</p>
+      <div class="cards">
+        <div class="card" *ngFor="let goal of specificGoals">
+          <div>
+            <strong>{{ goal.title }}</strong>
+             <br>
+              - {{ goal.dueDate | date }} - 
+              <br>
+            {{ goal.description }}<br>
+            <em>{{ goal.motivation }}</em>
+            <br>
+            <em>{{goal.status}}</em>
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
     </div>
     
     <div class="section_reports">
@@ -40,7 +56,20 @@
     
     <div class="section_realizari">
       <h2>Realizări</h2>
-      <p>Descoperă și monitorizează realizările tale financiare.</p>
+      <p>Monitorizează realizările tale financiare.</p>
+      <div *ngIf="achievements.length > 0">
+        <ul>
+          <li *ngFor="let achievement of achievements">
+            <img [src]="achievement.imageUrl" alt="badge" width="50" height="50"> <!-- Afișarea imaginii -->
+            <h3>{{ achievement.title }}</h3>
+            <p>{{ achievement.description }}</p>
+            <p>{{ achievement.dateAchieved | date }}</p>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="achievements.length === 0">
+        <p>Nu există realizări disponibile.</p>
+      </div>
     </div>
   </div>
 </div>

@@ -12,6 +12,7 @@ namespace MindfulWallet.Application.Services
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IFinanceRepository _financeRepository;
+        private readonly IEventRepository _eventRepository;
         private readonly IGoalRepository _goalRepository;
         private readonly IAchievementService _achievementService;
         private readonly IEventService _eventService;
@@ -19,12 +20,14 @@ namespace MindfulWallet.Application.Services
         public AccountService(
             IAccountRepository accountRepository,
             IFinanceRepository financeRepository,
+            IEventRepository eventRepository,
             IGoalRepository goalRepository,
             IAchievementService achievementService,
             IEventService eventService)
         {
             _accountRepository = accountRepository;
             _financeRepository = financeRepository;
+            _eventRepository = eventRepository;
             _goalRepository = goalRepository;
             _achievementService = achievementService;
             _eventService = eventService;
@@ -59,6 +62,13 @@ namespace MindfulWallet.Application.Services
 
         public async Task<bool> DeleteAccountAsync(int accountId)
         {
+            // Șterge toate evenimentele asociate contului
+            var events = await _eventRepository.GetEventsByAccountIdAsync(accountId);
+            foreach (var evt in events)
+            {
+                await _eventRepository.DeleteEventAsync(evt.Id);
+            }
+
             return await _accountRepository.DeleteAccountAsync(accountId);
         }
 
@@ -93,7 +103,7 @@ namespace MindfulWallet.Application.Services
         private async Task CheckGoalsAsync(Account account)
         {
             // Verificăm dacă tipul contului este de economii
-            if (!account.Type.ToLower().Contains("economii") return;
+            if (!account.Type.ToLower().Contains("economii")) return;
 
             var goals = await _goalRepository.GetGoalsByUserIdAsync(account.Finance.UserId);
 
@@ -109,7 +119,7 @@ namespace MindfulWallet.Application.Services
                         UserId = goal.UserId,
                         Title = $"Achieved goal: {goal.Title}",
                         Description = goal.Description,
-                        ImageUrl = "path/to/achievement/image", // Poți schimba această cale
+                        ImageUrl = "https://cdn1.iconfinder.com/data/icons/seo-and-marketing-icons-2/512/93-512.png", 
                         DateAchieved = DateTime.Now
                     };
 

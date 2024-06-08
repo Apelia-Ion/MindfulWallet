@@ -36,10 +36,17 @@ namespace MindfulWallet.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<Event> GetEventByExpenseIdAsync(int expenseId) // Implementarea metodei
+        public async Task<Event> GetEventByExpenseIdAsync(int expenseId) 
         {
             return await _context.Events
                 .FirstOrDefaultAsync(e => e.ExpenseId == expenseId);
+        }
+
+        public async Task<IEnumerable<Event>> GetEventsByAccountIdAsync(int accountId)
+        {
+            return await _context.Events
+                .Where(e => e.AccountId == accountId)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<EventDto>> GetEventsByUserIdAsync(int userId)
@@ -57,5 +64,7 @@ namespace MindfulWallet.Infrastructure.Repositories
                 })
                 .ToListAsync();
         }
+
+
     }
 }

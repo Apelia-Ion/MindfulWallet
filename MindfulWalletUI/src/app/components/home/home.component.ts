@@ -6,6 +6,7 @@ import { UserStoreService } from '../../services/user-store.service';
 import { ReportService } from '../../services/report.service';
 import { forkJoin, map, catchError, of } from 'rxjs';
 import { GoalService } from '../../services/goal.service';
+import { GoalModel } from '../../models/goal.model';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,8 @@ export class HomeComponent implements OnInit {
   public accounts: any[] = [];
   public currentMonthReports: any[] = [];
   public currentAccountIndex: number = 0;
+  public achievements: any[] = [];
+  specificGoals: GoalModel[] = [];
 
   longTermGoals: string[] = [];
   personalizedAdvice: string[] = [];
@@ -48,7 +51,7 @@ export class HomeComponent implements OnInit {
     }, error => {
       console.error('Error fetching role from store:', error);
     });
-
+  
     this.authentication.getUserId().subscribe(userId => {
       console.log('User ID:', userId);
       this.api.getUserAccounts(userId).subscribe((response: any) => {
@@ -66,7 +69,7 @@ export class HomeComponent implements OnInit {
               })
             )
           );
-
+  
           forkJoin(reportRequests).subscribe((reports: any[]) => {
             console.log('Reports:', reports);
             this.currentMonthReports = reports.filter(report => report != null);
@@ -79,10 +82,21 @@ export class HomeComponent implements OnInit {
       }, error => {
         console.error('Error fetching user accounts:', error);
       });
+  
+      this.api.getUserAchievements(userId).subscribe((achievements: any) => {
+        if (achievements && achievements.$values) {
+          this.achievements = achievements.$values;
+          console.log('User Achievements:', this.achievements);
+        }
+      }, error => {
+        console.error('Error fetching user achievements:', error);
+      });
+
+      this.loadSpecificGoals(userId); // Adăugăm această linie pentru a încărca obiectivele utilizatorului
     }, error => {
       console.error('Error fetching user ID:', error);
     });
-
+  
     this.goalService.longTermGoals$.subscribe(goals => {
       this.longTermGoals = goals;
       this.generateAdvice();
@@ -90,6 +104,7 @@ export class HomeComponent implements OnInit {
       console.error('Error fetching long term goals:', error);
     });
   }
+  
 
   toggleUsers(): void {
     this.showUsers = !this.showUsers;
@@ -123,5 +138,20 @@ export class HomeComponent implements OnInit {
     };
 
     this.personalizedAdvice = this.longTermGoals.map(goal => adviceList[goal]);
+  }
+
+
+  /// aduc si goals in calendar
+
+  loadSpecificGoals(userId: number) {
+    this.goalService.getAllGoals(userId).subscribe(
+      (response: any) => {
+        this.specificGoals = response.$values || []; // Asigură-te că extragi array-ul de obiecte
+        console.log('Loaded specific goals:', this.specificGoals); // Debug: Verifică structura datelor
+      },
+      error => {
+        console.error('Error fetching goals:', error);
+      }
+    );
   }
 }

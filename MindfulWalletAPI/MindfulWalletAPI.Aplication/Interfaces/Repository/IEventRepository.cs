@@ -9,6 +9,8 @@ namespace MindfulWallet.Aplication.Interfaces.Repository
         Task<Event> AddEventAsync(Event newEvent);
         Task<bool> DeleteEventAsync(int eventId);
         Task<Event> GetEventByExpenseIdAsync(int expenseId);
+
+        Task<IEnumerable<Event>> GetEventsByAccountIdAsync(int accountId);
         Task<IEnumerable<EventDto>> GetEventsByUserIdAsync(int userId);
     }
 }
