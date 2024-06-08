@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MindfulWallet.Aplication.Interfaces.Service;
+using MindfulWallet.Application.Services;
 using MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.DTOs.MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.Models;
@@ -13,11 +14,13 @@ namespace MindfulWalletAPI.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IExpenseService _expenseService;
+        private readonly IAchievementService _achievementService;
 
-        public AccountController(IAccountService accountService, IExpenseService expenseService)
+        public AccountController(IAccountService accountService, IExpenseService expenseService, IAchievementService achievementService)
         {
             _accountService = accountService;
             _expenseService = expenseService;
+            _achievementService = achievementService;
         }
 
         // Endpoint pentru obținerea unui cont cu ultimele 3 cheltuieli
@@ -101,6 +104,17 @@ namespace MindfulWalletAPI.Controllers
                 return BadRequest(new { Message = "Failed to add funds" });
             }
             return Ok(new { Message = "Funds added successfully" });
+        }
+
+        [HttpGet("user/{userId}/achievements")]
+        public async Task<IActionResult> GetAchievementsByUserId(int userId)
+        {
+            var achievements = await _achievementService.GetAchievementsByUserIdAsync(userId);
+            if (achievements == null || !achievements.Any())
+            {
+                return NotFound(new { Message = "No achievements found for the given user." });
+            }
+            return Ok(achievements);
         }
     }
 }

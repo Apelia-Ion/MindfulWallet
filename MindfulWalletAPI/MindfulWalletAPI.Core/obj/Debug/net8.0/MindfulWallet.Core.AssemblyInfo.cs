@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MindfulWallet.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1cc8761ac4eaa40785dc9e7e1ed27d8483d0fff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd4732990f7d4861ccedecde877b788e12576bdd")]
 [assembly: System.Reflection.AssemblyProductAttribute("MindfulWallet.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MindfulWallet.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

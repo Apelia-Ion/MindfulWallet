@@ -12,13 +12,22 @@ namespace MindfulWallet.Application.Services
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IFinanceRepository _financeRepository;
-        private readonly IEventService _eventService; // Adăugăm IEventService
+        private readonly IGoalRepository _goalRepository;
+        private readonly IAchievementService _achievementService;
+        private readonly IEventService _eventService;
 
-        public AccountService(IAccountRepository accountRepository, IFinanceRepository financeRepository, IEventService eventService)
+        public AccountService(
+            IAccountRepository accountRepository,
+            IFinanceRepository financeRepository,
+            IGoalRepository goalRepository,
+            IAchievementService achievementService,
+            IEventService eventService)
         {
             _accountRepository = accountRepository;
             _financeRepository = financeRepository;
-            _eventService = eventService; // Inițializăm IEventService
+            _goalRepository = goalRepository;
+            _achievementService = achievementService;
+            _eventService = eventService;
         }
 
         public async Task<Account> GetAccountByIdAsync(int accountId)
@@ -75,7 +84,38 @@ namespace MindfulWallet.Application.Services
 
             await _eventService.AddEventAsync(newEvent);
 
+            // Verifică dacă sunt obiective atinse
+            await CheckGoalsAsync(account);
+
             return true;
+        }
+
+        private async Task CheckGoalsAsync(Account account)
+        {
+            // Verificăm dacă tipul contului este de economii
+            if (!account.Type.ToLower().Contains("economii") return;
+
+            var goals = await _goalRepository.GetGoalsByUserIdAsync(account.Finance.UserId);
+
+            foreach (var goal in goals.Where(g => g.Status == "pending"))
+            {
+                if (account.Amount >= goal.Amount)
+                {
+                    goal.Status = "completed";
+                    await _goalRepository.UpdateAsync(goal);
+
+                    var achievement = new Achievement
+                    {
+                        UserId = goal.UserId,
+                        Title = $"Achieved goal: {goal.Title}",
+                        Description = goal.Description,
+                        ImageUrl = "path/to/achievement/image", // Poți schimba această cale
+                        DateAchieved = DateTime.Now
+                    };
+
+                    await _achievementService.AddAchievementAsync(achievement);
+                }
+            }
         }
 
         public async Task UpdateAccountAmount(int accountId, decimal amountChange)

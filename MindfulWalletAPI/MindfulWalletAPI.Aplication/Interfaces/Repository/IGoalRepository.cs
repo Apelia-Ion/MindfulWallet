@@ -9,5 +9,7 @@ namespace MindfulWallet.Aplication.Interfaces.Repository
         Task<Goal> AddGoalAsync(Goal newGoal);
         Task<bool> DeleteGoalAsync(int goalId);
         Task<IEnumerable<Goal>> GetGoalsByUserIdAsync(int userId);
+
+        Task UpdateAsync(Goal goal); 
     }
 }

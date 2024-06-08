@@ -42,5 +42,11 @@ namespace MindfulWallet.Infrastructure.Repositories
                 .Where(g => g.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task UpdateAsync(Goal goal) // Implementăm metoda UpdateAsync
+        {
+            _context.Goals.Update(goal);
+            await _context.SaveChangesAsync();
+        }
     }
 }

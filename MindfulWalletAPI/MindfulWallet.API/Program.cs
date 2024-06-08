@@ -56,6 +56,7 @@ builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<ICalendarRepository, CalendarRepository>();
 builder.Services.AddScoped<IGoalRepository, GoalRepository>();
+builder.Services.AddScoped<IAchievementRepository, AchievementRepository>();
 
 
 
@@ -69,6 +70,7 @@ builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IGoalService, GoalService>();
+builder.Services.AddScoped<IAchievementService, AchievementService>();
 
 
 // Configure JWT authentication
