@@ -11,15 +11,12 @@ namespace MindfulWallet.API.Controllers
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
-        private readonly IAccountService _accountService;
 
-        public ExpenseController(IExpenseService expenseService, IAccountService accountService)
+        public ExpenseController(IExpenseService expenseService)
         {
             _expenseService = expenseService;
-            _accountService = accountService;
         }
 
-        // Endpoint pentru obținerea ultimelor 3 cheltuieli pentru un cont
         [HttpGet("lastThree/{accountId}")]
         public async Task<IActionResult> GetLastThreeExpenses(int accountId)
         {
@@ -31,7 +28,6 @@ namespace MindfulWallet.API.Controllers
             return Ok(expenses);
         }
 
-        // Endpoint pentru adăugarea unei noi cheltuieli în cont și actualizarea sumei disponibile
         [HttpPost]
         public async Task<IActionResult> CreateExpense([FromBody] ExpenseDTO expenseDto)
         {
@@ -49,28 +45,20 @@ namespace MindfulWallet.API.Controllers
             };
 
             var createdExpense = await _expenseService.AddExpenseAsync(expense);
-            //await _accountService.UpdateAccountAmount(expense.AccountId, -expense.Amount); // Scade suma cheltuielii din cont
             return CreatedAtAction(nameof(GetLastThreeExpenses), new { accountId = expense.AccountId }, createdExpense);
         }
 
-        // Endpoint pentru ștergerea unei cheltuieli și actualizarea sumei disponibile în cont
+
         [HttpDelete("{expenseId}")]
         public async Task<IActionResult> DeleteExpense(int expenseId)
         {
-            var expense = await _expenseService.GetExpenseByIdAsync(expenseId);
-            if (expense == null)
+            var result = await _expenseService.DeleteExpenseAsync(expenseId);
+            if (!result)
             {
                 return NotFound(new { Message = "Expense not found" });
             }
 
-            var result = await _expenseService.DeleteExpenseAsync(expenseId);
-            if (result)
-            {
-                //await _accountService.UpdateAccountBalance(expense.AccountId, expense.Amount); // Adaugă suma cheltuielii înapoi în cont
-                return NoContent();
-            }
-
-            return BadRequest(new { Message = "Error deleting expense" });
+            return NoContent();
         }
     }
 }

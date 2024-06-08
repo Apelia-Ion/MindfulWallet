@@ -11,10 +11,21 @@ namespace MindfulWalletAPI.Models
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? Role { get; set; }
+
+        //1-N Tokens 
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
         public ICollection<ResetToken> ResetTokens { get; set; } = new List<ResetToken>();
 
-        // Relație 1-1 cu Finanțe
+        // Relarie 1-1 cu Finante
         public Finance Finance { get; set; }
+
+        // Relatie 1-1 cu Calendar
+        public Calendar Calendar { get; set; }
+
+        // Relatii 1-N
+        public ICollection<Goal> Goals { get; set; } = new List<Goal>();
+        public ICollection<Achievement> Achievements { get; set; } = new List<Achievement>();
     }
+
 }
+

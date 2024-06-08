@@ -2,10 +2,8 @@
 using MindfulWallet.Aplication.Interfaces.Repository;
 using MindfulWallet.Core.Entities;
 using MindfulWalletAPI.Context;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MindfulWallet.Infrastructure.Repositories
@@ -22,7 +20,9 @@ namespace MindfulWallet.Infrastructure.Repositories
         public async Task<Account> GetAccountByIdAsync(int accountId)
         {
             return await _context.Accounts
-                .Include(a => a.Expenses)
+                .Include(a => a.Finance)
+                    .ThenInclude(f => f.User)
+                        .ThenInclude(u => u.Calendar) // Asigură-te că include Calendar
                 .FirstOrDefaultAsync(a => a.Id == accountId);
         }
 
@@ -33,7 +33,6 @@ namespace MindfulWallet.Infrastructure.Repositories
                 .Where(a => a.Finance.UserId == userId)
                 .ToListAsync();
         }
-
 
         public async Task<Account> AddAccountAsync(Account account)
         {

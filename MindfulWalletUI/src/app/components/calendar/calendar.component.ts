@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { EventService } from '../../services/event.service';
+import { Event } from '../../models/event.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-calendar',
@@ -12,19 +15,41 @@ export class CalendarComponent implements OnInit {
   currentYear!: number;
   currentMonth!: number;
   weeks: any[] = [];
+  events: Event[] = [];
+  userId!: number;
 
   monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
 
-  constructor() { }
+  constructor(
+    private eventService: EventService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     const today = new Date();
     this.currentYear = today.getFullYear();
     this.currentMonth = today.getMonth();
-    this.generateCalendar(this.currentYear, this.currentMonth);
+
+    this.authService.getUserId().subscribe(
+      id => {
+        this.userId = id;
+        this.loadEvents(this.userId);
+      },
+      error => {
+        console.error('Error fetching user ID:', error);
+      }
+    );
+  }
+
+  loadEvents(userId: number): void {
+    this.eventService.getEvents(userId).subscribe(events => {
+      this.events = Array.isArray(events) ? events : [];
+      console.log('Loaded events:', this.events); // Debug: Afișează evenimentele încărcate
+      this.generateCalendar(this.currentYear, this.currentMonth);
+    });
   }
 
   generateCalendar(year: number, month: number): void {
@@ -34,12 +59,13 @@ export class CalendarComponent implements OnInit {
 
     // Fill in days before the first day of the month
     for (let i = 0; i < firstDay; i++) {
-      calendarDays.push(null);
+      calendarDays.push({ date: null, events: [] });
     }
 
     // Fill in the days of the month
     for (let i = 1; i <= lastDate; i++) {
-      calendarDays.push(i);
+      const dayEvents = this.events.filter(event => new Date(event.date).getDate() === i);
+      calendarDays.push({ date: i, events: dayEvents });
     }
 
     // Group the days into weeks
@@ -56,7 +82,7 @@ export class CalendarComponent implements OnInit {
     } else {
       this.currentMonth--;
     }
-    this.generateCalendar(this.currentYear, this.currentMonth);
+    this.loadEvents(this.userId);
   }
 
   nextMonth(): void {
@@ -66,6 +92,6 @@ export class CalendarComponent implements OnInit {
     } else {
       this.currentMonth++;
     }
-    this.generateCalendar(this.currentYear, this.currentMonth);
+    this.loadEvents(this.userId);
   }
 }

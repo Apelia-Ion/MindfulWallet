@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-<body>
 <div class="calendar-container">
     <header class="calendar-header">
         <h1>Calendar Obiective</h1>
@@ -22,11 +19,12 @@
         </div>
         <div *ngFor="let week of weeks" class="calendar-week">
             <div *ngFor="let date of week" class="calendar-date">
-                <div *ngIf="date" class="date-number">{{ date }}</div>
-                <!-- Add custom badges, text, icons, etc. here -->
+                <div *ngIf="date.date" class="date-number">{{ date.date }}</div>
+                <!-- Afișează evenimentele -->
+                <div *ngFor="let event of date.events" class="event">
+                    {{ event.description }} - {{ event.amount }} {{ event.type }}
+                </div>
             </div>
         </div>
     </div>
 </div>
-</body>
-</html>

@@ -9,6 +9,7 @@ using MindfulWallet.Core.Models;
 using MindfulWalletAPI.Helpers;
 using MindfulWalletAPI.Models;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace MindfulWallet.Application.Services
 {
@@ -16,6 +17,7 @@ namespace MindfulWallet.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IFinanceRepository _financeRepository;
+        private readonly ICalendarRepository _calendarRepository;
         private readonly ITokenService _tokenService;
         private readonly ILogger _logger;
         private readonly IEmailService _emailService;
@@ -24,10 +26,12 @@ namespace MindfulWallet.Application.Services
             IEmailService emailService,
             ITokenService tokenService,
             ILogger<UserService> logger,
-            IFinanceRepository financeRepository)
+            IFinanceRepository financeRepository,
+            ICalendarRepository calendarRepository)
         {
             _userRepository = userRepository;
             _financeRepository = financeRepository;
+            _calendarRepository = calendarRepository;
             _emailService = emailService;
             _tokenService = tokenService;
             _logger = logger;
@@ -87,6 +91,15 @@ namespace MindfulWallet.Application.Services
             };
 
             var createdFinance = await _financeRepository.AddFinanceAsync(finance);
+
+            var calendar = new Calendar
+            {
+                UserId = user.Id,
+                User = user
+            };
+
+            var createdCalendar = await _calendarRepository.AddCalendarAsync(calendar);
+
             return "User Registered";
         }
 
@@ -171,8 +184,6 @@ namespace MindfulWallet.Application.Services
             return "Email Sent!";
         }
 
-
-
         public async Task<string> ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
         {
             var resetToken = await _userRepository.GetResetTokenAsync(resetPasswordDto.EmailToken);
@@ -186,11 +197,5 @@ namespace MindfulWallet.Application.Services
 
             return "Password reset successfully";
         }
-
-
-
-
-
     }
-
 }

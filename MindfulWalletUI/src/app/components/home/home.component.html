@@ -7,25 +7,25 @@
   </div>
   
   <div class="sections">
-    <div class="section sfaturi">
+    <div class="section_sfaturi">
       <h2>Sfaturi</h2>
       <ul>
         <li *ngFor="let advice of personalizedAdvice">{{ advice }}</li>
       </ul>
     </div>
     
-    <div class="section goals">
-      <h2>Goals</h2>
+    <div class="section_goals">
+      <h2><a href="/goals" aria-label="goals">Goals</a></h2>
       <p>Setează și monitorizează obiectivele tale financiare.</p>
     </div>
     
     <div class="section_reports">
-      <h2>Rapoarte</h2>
+      <h2><a href="/expenses" aria-label="reports">Rapoarte</a></h2>
       <p>Vizualizează rapoartele detaliate ale cheltuielilor tale.</p>
       <div *ngIf="currentMonthReports.length > 0">
         <div *ngFor="let report of currentMonthReports; let i = index">
           <div *ngIf="i === currentAccountIndex">
-            <h3>Raportul lunii curente pentru contul de tip {{ report.accountType }}</h3>
+            <h3>Raportul lunii pentru contul {{ report.accountType }}</h3>
             <p>Total Cheltuieli: {{ report.totalExpenses }}</p>
             <p>Număr de Cheltuieli: {{ report.numberOfExpenses }}</p>
           </div>
@@ -38,7 +38,7 @@
       </div>
     </div>
     
-    <div class="section realizari">
+    <div class="section_realizari">
       <h2>Realizări</h2>
       <p>Descoperă și monitorizează realizările tale financiare.</p>
     </div>

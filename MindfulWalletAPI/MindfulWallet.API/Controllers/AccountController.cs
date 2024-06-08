@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MindfulWallet.Aplication.Interfaces.Service;
-using MindfulWallet.Aplication.Services;
 using MindfulWallet.Core.DTOs;
 using MindfulWallet.Core.DTOs.MindfulWallet.Core.DTOs;
-using MindfulWallet.Core.Entities;
 using MindfulWallet.Core.Models;
 using System.Threading.Tasks;
 
@@ -62,7 +60,6 @@ namespace MindfulWalletAPI.Controllers
             }
             return Ok(accounts);
         }
-
 
         // Endpoint pentru adăugarea unui cont
         [HttpPost("{userId}")]

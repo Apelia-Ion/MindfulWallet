@@ -18,6 +18,11 @@ namespace MindfulWalletAPI.Context
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Report> Reports { get; set; }
 
+        public DbSet<Calendar> Calendars { get; set; }
+        public DbSet<Goal> Goals { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Achievement> Achievements { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -62,6 +67,30 @@ namespace MindfulWalletAPI.Context
                 .HasMany(a => a.Reports)
                 .WithOne(r => r.Account)
                 .HasForeignKey(r => r.AccountId);
+
+            //relatie 1-1 user calendar
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Calendar)
+                .WithOne(c => c.User)
+                .HasForeignKey<Calendar>(c => c.UserId);
+
+            //relatie 1-N user Goal
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Goals)
+                .WithOne(g => g.User)
+                .HasForeignKey(g => g.UserId);
+
+            //relatie 1-N user achievement
+            modelBuilder.Entity<User>()
+               .HasMany(u => u.Achievements)
+               .WithOne(a => a.User)
+               .HasForeignKey(a => a.UserId);
+            
+            //relatie N-1 events calendar
+            modelBuilder.Entity<Calendar>()
+                .HasMany(c => c.Events)
+                .WithOne(e => e.Calendar)
+                .HasForeignKey(e => e.CalendarId);
         }
     }
 }

@@ -44,6 +44,19 @@ namespace MindfulWallet.Infrastructure.Repositories
 
         public async Task<Expense> AddExpenseAsync(Expense expense)
         {
+            var account = await _context.Accounts
+                                        .Include(a => a.Finance)
+                                        .ThenInclude(f => f.User)
+                                        .ThenInclude(u => u.Calendar)
+                                        .FirstOrDefaultAsync(a => a.Id == expense.AccountId);
+
+            if (account == null)
+            {
+                throw new Exception("Account not found");
+            }
+
+            expense.Account = account;
+
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             return expense;
