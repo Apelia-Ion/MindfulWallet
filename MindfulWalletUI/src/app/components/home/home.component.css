@@ -1,92 +1,96 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
 .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .header {
+    position: relative;
+    z-index: 1; /* Ensures content is above the background */
+}
+
+.app-background {
+    background-image: url(/src/assets/background2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Ensures it stays behind other content */
+}
+
+.header {
     text-align: center;
     margin-bottom: 40px;
-  }
-  
-  .header h1 {
+    background-color: #fff;
+    border-radius: 8px;
+
+}
+
+.header h1 {
     font-size: 2.5em;
     margin: 0;
     color: #333;
-  }
-  
-  .sections {
+}
+
+.sections {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-  }
-  
-  .section {
+}
+
+.section {
     flex: 1 1 calc(50% - 20px);
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .section h2 {
+}
+
+.section_sfaturi {
+    background-color: #9be8c7;
+}
+
+.section_reports {
+    background-color: #95bde6;
+}
+
+.section_realizari {
+    background-color: #d0b8dd;
+}
+
+.section_goals {
+    background-color: #e5e8bd;
+}
+
+.section h2 {
     font-size: 1.8em;
     margin-bottom: 10px;
-  }
-  
-  .section p {
+}
+
+.section p {
     font-size: 1.2em;
-  }
-  
+}
 
-  .section_reports{
-    flex: 1 1 calc(50% - 20px);
-    background-color: #95bde6;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .section_sfaturi{
-    flex: 1 1 calc(50% - 20px);
-    background-color: #9be8c7;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .section_realizari{
-    flex: 1 1 calc(50% - 20px);
-    background-color: #d0b8dd;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .section_goals{
-    flex: 1 1 calc(50% - 20px);
-    background-color: #e5e8bd;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-
-  .cards {
+.cards {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-  }
-  
-  .card {
+}
+
+.card {
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 200px;
     text-align: left;
     position: relative;
-  }
+}

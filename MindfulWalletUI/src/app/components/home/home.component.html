@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html>
-<body>
+<div class="app-background"></div>
 <div class="container">
   <div class="header">
     <h1>Salutări, {{ userName }}!</h1>
   </div>
   
   <div class="sections">
-    <div class="section_sfaturi">
+    <div class="section section_sfaturi">
       <h2>Sfaturi</h2>
+      <p>Vrei sa faci o achizitie de care nu esti sigur? <br>
+      Fa acest quiz inainte!<br>
+    <a href="quiz"> Start!</a> <br>
+       -----------------------------------------------------</p>
       <ul>
         <li *ngFor="let advice of personalizedAdvice">{{ advice }}</li>
       </ul>
     </div>
     
-    <div class="section_goals">
+    <div class="section section_goals">
       <h2><a href="/goals" aria-label="goals">Goals</a></h2>
-      <p>Setează și monitorizează obiectivele tale financiare.</p>
+      <p>Monitorizează obiectivele tale financiare.</p>
       <div class="cards">
         <div class="card" *ngFor="let goal of specificGoals">
           <div>
@@ -35,7 +37,7 @@
       </div>
     </div>
     
-    <div class="section_reports">
+    <div class="section section_reports">
       <h2><a href="/expenses" aria-label="reports">Rapoarte</a></h2>
       <p>Vizualizează rapoartele detaliate ale cheltuielilor tale.</p>
       <div *ngIf="currentMonthReports.length > 0">
@@ -54,7 +56,7 @@
       </div>
     </div>
     
-    <div class="section_realizari">
+    <div class="section section_realizari">
       <h2>Realizări</h2>
       <p>Monitorizează realizările tale financiare.</p>
       <div *ngIf="achievements.length > 0">
@@ -73,6 +75,3 @@
     </div>
   </div>
 </div>
-
-</body>
-</html>

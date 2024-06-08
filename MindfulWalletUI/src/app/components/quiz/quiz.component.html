@@ -1,0 +1,23 @@
+<div class="quiz-container">
+    <h2>Afla daca ar trebui să cumperi</h2>
+    <form (ngSubmit)="submitQuiz()">
+      <div *ngFor="let question of questions; let i = index" class="question">
+        <label>{{ question }}</label>
+        <div>
+          <input type="radio" name="answer{{i}}" value="da" (click)="addAnswer('da', i)"> Da
+          <input type="radio" name="answer{{i}}" value="nu" (click)="addAnswer('nu', i)"> Nu
+        </div>
+      </div>
+      <button type="submit">Trimite</button>
+    </form>
+  </div>
+  
+  <!-- Modal pentru rezultat -->
+  <div id="resultModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h3>Raspuns</h3>
+      <p>{{ resultMessage }}</p>
+    </div>
+  </div>
+  

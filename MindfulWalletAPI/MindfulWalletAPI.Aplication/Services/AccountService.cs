@@ -107,23 +107,32 @@ namespace MindfulWallet.Application.Services
 
             var goals = await _goalRepository.GetGoalsByUserIdAsync(account.Finance.UserId);
 
-            foreach (var goal in goals.Where(g => g.Status == "pending"))
+            foreach (var goal in goals.ToList())
             {
-                if (account.Amount >= goal.Amount)
+                if (goal.Status == "pending")
                 {
-                    goal.Status = "completed";
-                    await _goalRepository.UpdateAsync(goal);
-
-                    var achievement = new Achievement
+                    if (goal.DueDate < DateTime.Now)
                     {
-                        UserId = goal.UserId,
-                        Title = $"Achieved goal: {goal.Title}",
-                        Description = goal.Description,
-                        ImageUrl = "https://cdn1.iconfinder.com/data/icons/seo-and-marketing-icons-2/512/93-512.png", 
-                        DateAchieved = DateTime.Now
-                    };
+                        await _goalRepository.DeleteGoalAsync(goal.Id); //sterge obiectiv daca data a fost depasita
+                        continue; 
+                    }
 
-                    await _achievementService.AddAchievementAsync(achievement);
+                    if (account.Amount >= goal.Amount)
+                    {
+                        goal.Status = "completed";
+                        await _goalRepository.UpdateAsync(goal);
+
+                        var achievement = new Achievement
+                        {
+                            UserId = goal.UserId,
+                            Title = $"Achieved goal: {goal.Title}",
+                            Description = goal.Description,
+                            ImageUrl = "https://cdn1.iconfinder.com/data/icons/seo-and-marketing-icons-2/512/93-512.png",
+                            DateAchieved = DateTime.Now
+                        };
+
+                        await _achievementService.AddAchievementAsync(achievement);
+                    }
                 }
             }
         }

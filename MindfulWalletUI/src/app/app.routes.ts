@@ -16,17 +16,19 @@ import { StartComponent } from './components/start/start.component';
 import { tokenInterceptor } from './interceptors/token.interceptor';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { QuizComponent } from './components/quiz/quiz.component';
 
 export const routes: Routes = [
     { path: '', component: StartComponent }  ,
     { path:'home', component: HomeComponent, canActivate:[authGuard] },
     { path:'expenses', component: ExpensesComponent, canActivate:[authGuard] },
-    { path:'calendar', component: CalendarComponent},
-    { path:'goals', component: GoalsComponent},
+    { path:'calendar', component: CalendarComponent, canActivate:[authGuard] },
+    { path:'goals', component: GoalsComponent, canActivate:[authGuard] },
     { path:'login', component: LoginComponent},
     { path:'signup', component: SignupComponent},
     { path:'reset', component: ResetPasswordComponent},
-    { path:'terms-and-conditions', component: TermsAndConditionsComponent}
+    { path:'terms-and-conditions', component: TermsAndConditionsComponent},
+    {path:'quiz', component: QuizComponent, canActivate:[authGuard]}
 
 
 

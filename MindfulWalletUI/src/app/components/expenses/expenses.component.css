@@ -90,6 +90,11 @@ button[type="submit"]:hover {
 /* Additional Styles */
 .container {
   padding: 20px;
+  background-image: url(/src/assets/background2.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
 }
 
 .header {
@@ -102,8 +107,9 @@ button[type="submit"]:hover {
 .add-button {
   position: absolute;
   right: 0; /* Position the add button to the right */
-  background-color: #007bff;
-  color: white;
+  background-color: #ffcccb;
+  color: black;
+  text-decoration: solid;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -114,6 +120,7 @@ button[type="submit"]:hover {
   justify-content: center; /* Center the content */
   margin-top: 20px;
   margin-bottom: 40px;
+  
 }
 
 .total-amount {

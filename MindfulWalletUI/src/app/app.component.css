@@ -1,4 +1,26 @@
 
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.app-background {
+  background-image: url(../assets/background2.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1; /* Ensures it stays behind other content */
+}
+
+.app-content {
+  position: relative;
+  z-index: 1; /* Ensures content is on top of the background */
+}
+
 
 .navbar-brand {
     display: flex;

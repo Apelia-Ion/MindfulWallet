@@ -59,12 +59,12 @@ export class SignupComponent implements OnInit {
       this.auth.signup(this.signupForm.value)
       .subscribe({
         next:(res)=>{
-          alert(res.message);
+          alert("register succesful");
           this.signupForm.reset();
           this.router.navigate(['login']);
         },
         error:(err)=>(
-          alert(err.error.message)
+          alert("Couldn't register")
         )
       })
 
