@@ -17,6 +17,8 @@ export class CalendarComponent implements OnInit {
   weeks: any[] = [];
   events: Event[] = [];
   userId!: number;
+  showModal = false;
+  modalEvents: Event[] = [];
 
   monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -64,7 +66,10 @@ export class CalendarComponent implements OnInit {
 
     // Fill in the days of the month
     for (let i = 1; i <= lastDate; i++) {
-      const dayEvents = this.events.filter(event => new Date(event.date).getDate() === i);
+      const dayEvents = this.events.filter(event => {
+        const eventDate = new Date(event.date);
+        return eventDate.getDate() === i && eventDate.getMonth() === month && eventDate.getFullYear() === year;
+      });
       calendarDays.push({ date: i, events: dayEvents });
     }
 
@@ -82,7 +87,7 @@ export class CalendarComponent implements OnInit {
     } else {
       this.currentMonth--;
     }
-    this.loadEvents(this.userId);
+    this.generateCalendar(this.currentYear, this.currentMonth);
   }
 
   nextMonth(): void {
@@ -92,6 +97,16 @@ export class CalendarComponent implements OnInit {
     } else {
       this.currentMonth++;
     }
-    this.loadEvents(this.userId);
+    this.generateCalendar(this.currentYear, this.currentMonth);
+  }
+
+  openModal(events: Event[]): void {
+    this.modalEvents = events;
+    this.showModal = true;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.modalEvents = [];
   }
 }

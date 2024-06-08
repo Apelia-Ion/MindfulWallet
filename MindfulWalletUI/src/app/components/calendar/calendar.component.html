@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html>
+<body>
 <div class="calendar-container">
     <header class="calendar-header">
         <h1>Calendar Obiective</h1>
@@ -20,11 +23,22 @@
         <div *ngFor="let week of weeks" class="calendar-week">
             <div *ngFor="let date of week" class="calendar-date">
                 <div *ngIf="date.date" class="date-number">{{ date.date }}</div>
-                <!-- Afișează evenimentele -->
                 <div *ngFor="let event of date.events" class="event">
-                    {{ event.description }} - {{ event.amount }} {{ event.type }}
+                    {{ event.description }} - {{ event.type }}
                 </div>
+                <button *ngIf="date.events.length > 1" class="more-button" (click)="openModal(date.events)">More</button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showModal" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Events</h2>
+            <div *ngFor="let event of modalEvents">
+                <p>{{ event.description }} - {{ event.type }} - {{ event.amount }}</p>
             </div>
         </div>
     </div>
 </div>
+</body>
+</html>
